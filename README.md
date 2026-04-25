@@ -11,7 +11,7 @@ Interface web desenvolvida para a gestão operacional da frota. O foco principal
 Organização das pastas focada em modularização e facilidade de manutenção:
 
 - **`/src/components`**: Componentes de interface (Tabelas, Modais de Cadastro, Inputs).
-- **`/src/services`**: Integração com a API (Conexão com bancos Oracle SQL / MySQL).
+- **`/src/services`**: Integração com a API (Conexão com bancos MySQL).
 - **`/src/pages`**: Telas principais (Gestão de Frota, Registro de Viagens, Dashboard).
 - **`/src/assets`**: Identidade visual, logos do IPEM e ícones do sistema.
 - **`/src/utils`**: Funções auxiliares (Validação de Placas, Formatação de KM e Datas).
@@ -31,7 +31,7 @@ Organização das pastas focada em modularização e facilidade de manutenção:
 | **Frontend** | React.js | Biblioteca principal de interface |
 | **Linguagem** | JavaScript (JS) | Lógica de programação |
 | **Estilização** | Tailwind CSS | Design responsivo e moderno |
-| **Banco de Dados** | Oracle / MySQL | Armazenamento de dados transacionais |
+| **Banco de Dados** | MySQL | Armazenamento de dados transacionais |
 | **Padronização** | Husky + Commitlint | Organização de mensagens de commit |
 
 📊 Painel de Controle (Dashboard)
