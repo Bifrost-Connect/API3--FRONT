@@ -17,6 +17,7 @@
             <button id="btnmenu">
                 <img src="img/menu.png" alt="icone menu">
             </button>
+            <span class="titulo">Bem vindo, fulano!</span>
         </div>
 
         <div class="logout">
@@ -27,13 +28,12 @@
     </div>
 
     <!-- MUDAR AQUI PARA ALGO QUE PUXE A QUANTIDADE DE CHAMADOS -->
-    <!-- 
+
     <div class="notificacao-bar">
-        <img src="img/bell.png" class="bell" alt="Notificações">
+        <img src="img/bell.png" class="bell">
         <span>Você possui 1 solicitação de serviço!</span>
         <div class="badge">3</div>
     </div>
-    -->
 
     <!-- BLUR DA SIDEBAR -->
 
@@ -45,7 +45,7 @@
         <a href="historicochamados.html">HISTÓRICO DE CHAMADOS</a>
         <a href="cadastrousuarios.html">CADASTRO DE USUÁRIOS</a>
         <a href="duvidas.html">DÚVIDAS</a>
-        <a href="configuracoes-gestor.html">CONFIGURAÇÕES</a>
+        <a href="configuracoes.html">CONFIGURAÇÕES</a>
     </div>
 
     <div class="chamado-card">
@@ -54,32 +54,58 @@
         <div class="chamado-conteudo">
             <div class="coluna">
                 <div class="group">
-                    <input id="veiculo-marca" required type="text" class="input" placeholder=" ">
-                    <span class="bar"></span>
-                    <label for="veiculo-marca">Marca:</label>
+                    <input required type="text" class="input">
+                    <label>Marca:</label>
                 </div>
                 <div class="group">
-                    <input id="veiculo-modelo" required type="text" class="input" placeholder=" ">
-                    <span class="bar"></span>
-                    <label for="veiculo-modelo">Modelo:</label>
+                    <input required type="text" class="input">
+                    <label>Modelo:</label>
                 </div>
                 <div class="group">
-                    <input id="veiculo-tipo" required type="text" class="input" placeholder=" ">
-                    <span class="bar"></span>
-                    <label for="veiculo-tipo">Tipo de Veículo:</label>
+                    <input required type="number" class="input">
+                    <label>Ano:</label>
+                </div>
+                <div class="group">
+                    <input required type="text" class="input">
+                    <label>Cor:</label>
+                </div>
+                <div class="group">
+                    <select required class="input" value="">
+                        <option value=""></option>
+                        <option value="Passeio">Passeio</option>
+                        <option value="Utilitario">Utilitário</option>
+                    </select>
+                    <label>Tipo:</label>
                 </div>
             </div>
 
             <div class="coluna">
                 <div class="group">
-                    <input id="veiculo-placa" required type="text" class="input" placeholder=" ">
-                    <span class="bar"></span>
-                    <label for="veiculo-placa">Placa:</label>
+                    <input required type="text" class="input">
+                    <label>Placa:</label>
                 </div>
                 <div class="group">
-                    <input id="veiculo-prefixo" required type="text" class="input" placeholder=" ">
-                    <span class="bar"></span>
-                    <label for="veiculo-prefixo">Prefixo:</label>
+                    <input required type="text" class="input">
+                    <label>Prefixo:</label>
+                </div>
+                <div class="group">
+                    <select required class="input" value="" onchange="this.setAttribute('value', this.value);">
+                        <option value=""></option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                    </select>
+                    <label>CNH Necessária:</label>
+                </div>
+                <div class="group">
+                    <input required type="number" class="input" min="0">
+                    <label>KM's Rodados:</label>
+                </div>
+                <div class="group">
+                    <input required type="number" class="input" min="0">
+                    <label>Próxima troca de óleo (KM):</label>
                 </div>
             </div>
         </div>

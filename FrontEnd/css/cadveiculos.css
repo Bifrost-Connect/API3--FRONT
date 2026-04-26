@@ -141,7 +141,6 @@ body {
     width: 250px;
 }
 
-/* Overlay com Blur para Sidebar */
 .overlay-blur-sidebar {
     display: none;
     position: fixed;
@@ -151,7 +150,6 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
-    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
     cursor: pointer;
 }
@@ -189,7 +187,6 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
 }
 
@@ -226,7 +223,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* Modal/Caracteristicas ds Popups */
 .popup-card {
     background-color: white;
     border-radius: 15px;
@@ -309,7 +305,6 @@ body {
     transform: translateX(3px);
 }
 
-/* BOTÕES DE VOLTAR E CONFIRMAR */
 .btn-container {
     display: flex;
     gap: 10px;
@@ -359,15 +354,16 @@ body {
 
 label {
     color: #999;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: normal;
     position: absolute;
     pointer-events: none;
     left: 5px;
     top: 10px;
-    -webkit-transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
     transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+    white-space: nowrap;
 }
 
 .input:focus~label,
@@ -382,6 +378,53 @@ label {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+select.input {
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.input:focus ~ label,
+.input:valid ~ label,
+select.input:not([value=""]) ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: #5264AE;
+}
+
+.group {
+    position: relative;
+    height: 50px;
+}
+
+select.input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+    width: 200px;
+    height: 40px; /* Altura padronizada */
+}
+
+select.input:focus ~ label,
+select.input:not([value=""]) ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: #5264AE;
+}
+
+.chamado-conteudo {
+    margin-bottom: 50px;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.chamado-card {
+    height: auto;
+    padding: 60px 70px;
 }
 
 @media (max-width: 768px) {
