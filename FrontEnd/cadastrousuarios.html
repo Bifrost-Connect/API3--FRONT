@@ -26,7 +26,7 @@
         </div>
     </div>
 
-  <!-- MUDAR AQUI PARA ALGO QUE PUXE A QUANTIDADE DE CHAMADOS -->
+    <!-- MUDAR AQUI PARA ALGO QUE PUXE A QUANTIDADE DE CHAMADOS -->
     <!-- 
     <div class="notificacao-bar">
         <img src="img/bell.png" class="bell" alt="Notificações">
@@ -54,22 +54,36 @@
         <!-- PRECISA FAZER O BACKEND PARA PREENCHER OS DADOS -->
 
         <div class="chamado-conteudo">
-
             <div class="coluna">
-
                 <div class="group">
-                    <input id="usuario-nome" required type="text" class="input" placeholder=" ">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label for="usuario-nome">Nome:</label>
+                    <input id="usuario-nome" required type="text" class="input">
+                    <label>Nome:</label>
                 </div>
 
+                <div class="group">
+                    <input id="usuario-email" required type="email" class="input">
+                    <label>E-mail:</label>
+                </div>
 
                 <div class="group">
-                    <input id="usuario-email" required type="email" class="input" placeholder=" ">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label for="usuario-email">E-mail:</label>
+                    <input id="usuario-tel" required type="tel" class="input">
+                    <label>Telefone:</label>
+                </div>
+
+                <div class="group">
+                    <input id="usuario-matricula" required type="text" class="input">
+                    <label>Matrícula:</label>
+                </div>
+
+                <div class="group">
+                    <select id="usuario-sexo" required class="input" value=""
+                        onchange="this.setAttribute('value', this.value);">
+                        <option value=""></option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Feminino</option>
+                        <option value="O">Outro</option>
+                    </select>
+                    <label>Sexo:</label>
                 </div>
 
             </div>
@@ -77,23 +91,64 @@
             <div class="coluna">
 
                 <div class="group">
-                    <input id="usuario-matricula" required type="text" class="input" placeholder=" ">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label for="usuario-matricula">Matrícula:</label>
+                    <select id="usuario-funcao" required class="input" value=""
+                        onchange="this.setAttribute('value', this.value);">
+                        <option value=""></option>
+                        <option value="tecnico">Técnico</option>
+                        <option value="gestor">Gestor</option>
+                        <option value="ambas">Ambas</option>
+                    </select>
+                    <label>Função:</label>
                 </div>
 
+                <div class="group">
+                    <input id="usuario-nasc" required type="date" class="input">
+                    <label>Data de Nascimento:</label>
+                </div>
 
                 <div class="group">
-                    <input id="usuario-senha" required type="password" class="input" placeholder=" ">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label for="usuario-senha">Senha:</label>
+                    <input id="usuario-senha" required type="password" class="input">
+                    <label>Senha:</label>
+                </div>
+
+                <div class="group-cnh">
+                    <p class="label-cnh">Categorias da CNH:</p>
+                    <div class="opcoes-cnh">
+
+                        <div class="check-container">
+                            <input type="checkbox" name="cnh" value="A">
+                            <span class="checkmark"></span>
+                            <span class="label-text">A</span>
+                        </div>
+
+                        <div class="check-container">
+                            <input type="checkbox" name="cnh" value="B">
+                            <span class="checkmark"></span>
+                            <span class="label-text">B</span>
+                        </div>
+
+                        <div class="check-container">
+                            <input type="checkbox" name="cnh" value="C">
+                            <span class="checkmark"></span>
+                            <span class="label-text">C</span>
+                        </div>
+
+                        <div class="check-container">
+                            <input type="checkbox" name="cnh" value="D">
+                            <span class="checkmark"></span>
+                            <span class="label-text">D</span>
+                        </div>
+
+                        <div class="check-container">
+                            <input type="checkbox" name="cnh" value="E">
+                            <span class="checkmark"></span>
+                            <span class="label-text">E</span>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
-
-
 
         </div>
 
