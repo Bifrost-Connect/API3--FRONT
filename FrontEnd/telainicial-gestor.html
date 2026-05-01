@@ -38,51 +38,45 @@
         <div class="dashboard-grid">
             <article class="dashboard-card destaque-disponivel">
                 <span class="dashboard-label">Viaturas disponíveis</span>
-                <strong class="dashboard-valor">18</strong>
+                <strong class="dashboard-valor" id="val-disponiveis">...</strong>
                 <span class="dashboard-info">Prontas para atendimento imediato</span>
             </article>
-
             <article class="dashboard-card destaque-manutencao">
                 <span class="dashboard-label">Viaturas em manutenção</span>
-                <strong class="dashboard-valor">4</strong>
+                <strong class="dashboard-valor" id="val-manutencao">...</strong>
                 <span class="dashboard-info">Em oficina ou revisao preventiva</span>
             </article>
-
             <article class="dashboard-card destaque-uso">
                 <span class="dashboard-label">Viaturas em uso</span>
-                <strong class="dashboard-valor">9</strong>
+                <strong class="dashboard-valor" id="val-uso">...</strong>
                 <span class="dashboard-info">Em rondas e operacoes ativas</span>
             </article>
-
             <article class="dashboard-card destaque-tecnicos">
                 <span class="dashboard-label">Técnicos disponíveis</span>
-                <strong class="dashboard-valor">6</strong>
+                <strong class="dashboard-valor" id="val-tecnicos-disp">...</strong>
                 <span class="dashboard-info">Aguardando nova alocação</span>
             </article>
-
             <article class="dashboard-card destaque-servico">
                 <span class="dashboard-label">Técnicos em serviço</span>
-                <strong class="dashboard-valor">11</strong>
+                <strong class="dashboard-valor" id="val-tecnicos-serv">...</strong>
                 <span class="dashboard-info">Atendendo chamados neste momento</span>
             </article>
-
             <article class="dashboard-card destaque-combustivel">
                 <span class="dashboard-label">Gasto de combustível mensal</span>
-                <strong class="dashboard-valor">R$ 24.860</strong>
+                <strong class="dashboard-valor" id="val-gasto-mensal">...</strong>
                 <span class="dashboard-info">Total registrado no mes atual</span>
             </article>
-
             <article class="dashboard-card destaque-preco">
                 <span class="dashboard-label">Preço médio por litro</span>
-                <strong class="dashboard-valor">R$ 5,87</strong>
+                <strong class="dashboard-valor" id="val-preco-litro">...</strong>
                 <span class="dashboard-info">Media consolidada dos abastecimentos</span>
             </article>
-
             <article class="dashboard-card destaque-litros">
                 <span class="dashboard-label">Total de litros abastecidos</span>
-                <strong class="dashboard-valor">4.236 L</strong>
+                <strong class="dashboard-valor" id="val-litros">...</strong>
                 <span class="dashboard-info">Volume acumulado no mes</span>
             </article>
+        </div>
         </div>
     </section>
 
@@ -210,13 +204,18 @@
     <div id="sidebar" class="sidebar">
         <button id="btnx" class="close-btn">×</button>
         <a href="historicochamados.html">HISTÓRICO DE CHAMADOS</a>
+        <a href="relatorios.html">RELATÓRIOS</a>
+        <a href="tecnicos-gestor.html">TÉCNICOS</a>
         <a href="cadastrousuarios.html">CADASTRO DE USUÁRIOS</a>
         <a href="cadastroveiculos.html">CADASTRO DE VEÍCULOS</a>
         <a href="duvidas.html">DÚVIDAS</a>
         <a href="configuracoes-gestor.html">CONFIGURAÇÕES</a>
     </div>
 
-    <script src="js/script.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
+</html>
 
 </html>

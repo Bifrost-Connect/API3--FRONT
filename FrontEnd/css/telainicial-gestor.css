@@ -18,6 +18,8 @@ body {
 
 .top-bar {
     width: 95%;
+    max-width: 1180px;
+    margin: 20px auto 0;
     height: 70px;
     background-color: #002080;
     color: white;
