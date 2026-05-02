@@ -18,8 +18,6 @@ body {
 
 .top-bar {
     width: 95%;
-    max-width: 1180px;
-    margin: 20px auto 0;
     height: 70px;
     background-color: #002080;
     color: white;
@@ -153,6 +151,7 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
+    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
     cursor: pointer;
 }
@@ -190,6 +189,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
 }
 
@@ -341,6 +341,7 @@ body {
 
 .group {
     position: relative;
+    height: 50px;
 }
 
 .input {
@@ -359,15 +360,15 @@ body {
 
 label {
     color: #999;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: normal;
     position: absolute;
     pointer-events: none;
     left: 5px;
     top: 10px;
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    transition: 0.2s ease all;
 }
 
 .input:focus~label,
@@ -391,9 +392,9 @@ label {
     bottom: 1px;
     position: absolute;
     background: #5264AE;
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    transition: 0.2s ease all;
 }
 
 .bar:before {
@@ -423,6 +424,96 @@ label {
     animation: inputHighlighter 0.3s ease;
 }
 
+select.input, input[type="date"].input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    color: #333;
+}
+
+.input:focus ~ label,
+.input:valid ~ label,
+select.input:not([value=""]) ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: #5264AE;
+}
+
+/* Estilização da CNH (Checkboxes) */
+.group-cnh {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.label-cnh {
+    color: #999;
+    font-size: 14px;
+}
+
+.opcoes-cnh {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.check-container {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    user-select: none;
+}
+
+.check-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.check-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.check-container input:checked ~ .checkmark {
+    background-color: #002080;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.check-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.check-container .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Espaçamento extra no card para comportar os novos campos */
+.chamado-card {
+    padding-bottom: 40px;
+    height: auto;
+}
+
+.chamado-conteudo {
+    margin-bottom: 40px;
+}
+
 @keyframes inputHighlighter {
     from {
         background: #5264AE;
@@ -440,10 +531,102 @@ label {
     gap: 20px;
 }
 
+.input:focus ~ label,
+.input:valid ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: #5264AE;
+}
+
+
+input[type="date"]::-webkit-datetime-edit {
+    color: transparent;
+}
+input[type="date"]:focus::-webkit-datetime-edit,
+input[type="date"]:valid::-webkit-datetime-edit {
+    color: #333;
+}
+
+
+
+.check-container {
+    display: inline-flex;
+    align-items: center;   /* Centraliza verticalmente */
+    position: relative;
+    cursor: pointer;
+    height: 20px;
+}
+
+/* Garante que o input cubra a área do clique */
+.check-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 2;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #fff;
+    border: 1px solid #002080;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.check-container input:checked ~ .checkmark {
+    background-color: #002080;
+}
+
+.checkmark:after {
+    content: ""; /* ISSO É OBRIGATÓRIO PARA APARECER */
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.check-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+
 @media (max-width: 768px) {
     .chamado-conteudo {
         flex-direction: column;
         align-items: center;
         gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .chamado-conteudo {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .coluna {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    /* Garante que o botão de cadastrar não fique gigante ou desalinhado */
+    .btn-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 }

@@ -10,91 +10,118 @@
 
 <body class="pagina-chamados">
 
-<!-- confirmar se vamos adicionar alguma informação no topbar -->    
+    <!-- confirmar se vamos adicionar alguma informação no topbar -->
 
 
-<div class="top-bar">
-    <div class="left">
-        <button id="btnmenu">
-            <img src="img/menu.png" alt="icone menu">
+    <div class="top-bar">
+        <div class="left">
+            <button id="btnmenu">
+                <img src="img/menu.png" alt="icone menu">
+            </button>
+            <span class="titulo" id="boas-vindas-titulo">Bem vindo!</span>
+        </div>
+
+        <div class="logout">
+            <button id="btnlogout" onclick="btnlogout()">
+                <img src="img/logout.png" alt="icone logout">
+            </button>
+        </div>
+    </div>
+
+    <div id="overlayBlurSidebar" class="overlay-blur-sidebar"></div>
+
+    <div id="sidebar" class="sidebar">
+        <button id="btnx" class="close-btn">×</button>
+        <a href="telainicial-gestor.html">TELA INICIAL</a>
+        <a href="relatorios.html">RELATÓRIOS</a>
+        <a href="tecnicos-gestor.html">TÉCNICOS</a>
+        <a href="historicochamados.html">HISTÓRICO DE CHAMADOS</a>
+        <a href="cadastrousuarios.html">CADASTRO DE USUÁRIOS</a>
+        <a href="duvidas.html">DÚVIDAS</a>
+        <a href="configuracoes-gestor.html">CONFIGURAÇÕES</a>
+    </div>
+
+    <div class="chamado-card">
+        <h2 class="chamado-titulo">CADASTRO DE VEÍCULOS:</h2>
+
+        <div class="chamado-conteudo">
+            <div class="coluna">
+                <div class="group">
+                    <input required type="text" class="input">
+                    <label>Marca:</label>
+                </div>
+                <div class="group">
+                    <input required type="text" class="input">
+                    <label>Modelo:</label>
+                </div>
+                <div class="group">
+                    <input required type="number" class="input">
+                    <label>Ano:</label>
+                </div>
+                <div class="group">
+                    <input required type="text" class="input">
+                    <label>Cor:</label>
+                </div>
+                <div class="group">
+                    <select required class="input" value="">
+                        <option value=""></option>
+                        <option value="Passeio">Passeio</option>
+                        <option value="Utilitario">Utilitário</option>
+                    </select>
+                    <label>Tipo:</label>
+                </div>
+            </div>
+
+            <div class="coluna">
+                <div class="group">
+                    <input required type="text" class="input">
+                    <label>Placa:</label>
+                </div>
+                <div class="group">
+                    <input required type="text" class="input">
+                    <label>Prefixo:</label>
+                </div>
+                <div class="group">
+                    <select required class="input" value="" onchange="this.setAttribute('value', this.value);">
+                        <option value=""></option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                    </select>
+                    <label>CNH Necessária:</label>
+                </div>
+                <div class="group">
+                    <input required type="number" class="input" min="0">
+                    <label>KM's Rodados:</label>
+                </div>
+                <div class="group">
+                    <input required type="number" class="input" min="0">
+                    <label>Próxima troca de óleo (KM):</label>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-aceitar" onclick="abrirModalConfirmacao()">
+            Cadastrar
         </button>
-        <span class="titulo" id="boas-vindas-titulo">Bem vindo!</span>
     </div>
 
-    <div class="logout">
-        <button id="btnlogout" onclick="btnlogout()">
-            <img src="img/logout.png" alt="icone logout">
-        </button>
-    </div>
-</div>
+    <div id="modalConfirmacao" class="sobreposicao">
+        <div class="popup-card">
+            <h2 class="popup-titulo">Concluido!</h2>
 
-<div id="overlayBlurSidebar" class="overlay-blur-sidebar"></div>
-
-<div id="sidebar" class="sidebar">
-    <button id="btnx" class="close-btn">×</button>
-    <a href="telainicial-gestor.html">TELA INICIAL</a>
-    <a href="relatorios.html">RELATÓRIOS</a>
-    <a href="tecnicos-gestor.html">TÉCNICOS</a>
-    <a href="historicochamados.html">HISTÓRICO DE CHAMADOS</a>
-    <a href="cadastrousuarios.html">CADASTRO DE USUÁRIOS</a>
-    <a href="duvidas.html">DÚVIDAS</a>
-    <a href="configuracoes-gestor.html">CONFIGURAÇÕES</a>
-</div>
-
-<div class="chamado-card">
-    <h2 class="chamado-titulo">CADASTRO DE VEÍCULOS:</h2>
-
-    <div class="chamado-conteudo">
-        <div class="coluna">
-            <div class="group">
-                <input required type="text" class="input" id="cad-marca">
-                <span class="bar"></span>
-                <label>Marca:</label>
-            </div>
-            <div class="group">
-                <input required type="text" class="input" id="cad-modelo">
-                <span class="bar"></span>
-                <label>Modelo:</label>
-            </div>
-            <div class="group">
-                <input required type="text" class="input" id="cad-tipo">
-                <span class="bar"></span>
-                <label>Tipo de Veículo:</label>
-            </div>
-        </div>
-
-        <div class="coluna">
-            <div class="group">
-                <input required type="text" class="input" id="cad-placa">
-                <span class="bar"></span>
-                <label>Placa:</label>
-            </div>
-            <div class="group">
-                <input required type="text" class="input" id="cad-prefixo">
-                <span class="bar"></span>
-                <label>Prefixo:</label>
+            <div class="popup-conteudo">
+                <p><strong>Veículo cadastrado com sucesso!</strong></p>
             </div>
         </div>
     </div>
 
-    <button class="btn-aceitar" onclick="abrirModalConfirmacao()">
-        Cadastrar
-    </button>
-</div>
 
-<div id="modalConfirmacao" class="sobreposicao">
-    <div class="popup-card">
-        <button class="close-btn" onclick="fecharTodosModais()" style="position: absolute; right: 10px; top: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
-        <h2 class="popup-titulo">Concluído!</h2>
-        <div class="popup-conteudo">
-            <p style="text-align: center;"><strong>Veículo cadastrado com sucesso!</strong></p>
-        </div>
-        <button class="btn-aceitar" onclick="fecharTodosModais()" style="margin-top: 20px;">OK</button>
-    </div>
-</div>
-
-<script src="js/ui.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/vehicle.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/vehicle.js"></script>
 </body>
+
 </html>
