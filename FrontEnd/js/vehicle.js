@@ -52,10 +52,10 @@ window.salvarVeiculoInfo = async function () {
                     observations: notesInput
                 })
             });
-            alert("Dados salvos!");
+            mostrarToast("Dados salvos!");
         } catch (error) {
             console.error("API error:", error);
-            alert("Salvo localmente.");
+            mostrarToast("Salvo localmente.");
         }
     }
 };
@@ -85,14 +85,14 @@ window.cadastrarVeiculo = async function () {
         });
 
         if (response.ok) {
-            alert("Veículo cadastrado com sucesso!");
+            mostrarToast("Veículo cadastrado com sucesso!");
         } else {
-            alert("Erro ao cadastrar veículo.");
+            mostrarToast("Erro ao cadastrar veículo.");
         }
 
     } catch (error) {
         console.error("API error:", error);
-        alert("Erro de conexão.");
+        mostrarToast("Erro de conexão.");
     }
 };
 
@@ -159,7 +159,7 @@ btnCancelar.addEventListener('click', () => {
 
 btnConfirmarFinal.onclick = (e) => {
     e.preventDefault();
-    
+
     popupConfirmacao.style.display = 'none';
     popupSucesso.style.display = 'flex';
 };
@@ -168,3 +168,39 @@ btnConfirmarFinal.onclick = (e) => {
 btnFecharSucesso.addEventListener('click', () => {
     popupSucesso.style.display = 'none';
 });
+
+//Função para mostrar o Toast
+function mostrarToast(mensagem) {
+    const toast = document.getElementById("toast-aviso");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden");
+
+        // Esconde após 3 segundos
+        setTimeout(() => {
+            toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}
+
+// arruma interface tela esquerda
+
+function salvarVeiculoInfo() {
+    // Esconde o que é do Check-in
+    document.getElementById('grupo-km-inicial').style.display = 'none';
+    document.getElementById('btn-salvar-veiculo').style.display = 'none';
+    document.getElementById('btn-cancelar-veiculo').style.display = 'none';
+
+    // Mostra o que é do Pós-Check-in
+    document.getElementById('grupo-km-final').style.display = 'block';
+    document.getElementById('btn-abs-veiculo').style.display = 'inline-block';
+    document.getElementById('btn-checkout').style.display = 'inline-block';
+}
+
+function cancelarVeiculoInfo() {
+    document.getElementById('secao-pos-checkin').style.display = 'none';
+    document.getElementById('info-veiculo-dados').style.display = 'none';
+    document.getElementById('container-checkin-botao').style.display = 'block';
+}

@@ -34,14 +34,18 @@
                         id="display-prefixo"></span></p>
             </div>
 
-            <div class="campos-adicionais" id="secao-pos-checkin" style="display: none;" required>
-                <label>Quilometragem Inicial:</label>
-                <input type="text" id="quilometragem-inicial" placeholder="Digite a quilometragem inicial">
+            <div class="campos-adicionais" id="secao-pos-checkin" style="display: block;">
+                <div id="grupo-km-inicial">
+                    <label>Quilometragem Inicial:</label>
+                    <input type="text" id="quilometragem-inicial" placeholder="Digite a quilometragem inicial">
+                </div>
 
-                <!-- <label>Quilometragem Final:</label>
-                <input type="text" id="quilometragem-final" placeholder="Digite a quilometragem final"> -->
+                <div id="grupo-km-final" style="display: none;">
+                    <label>Quilometragem Final:</label>
+                    <input type="text" id="quilometragem-final" placeholder="Digite a quilometragem final">
+                </div>
 
-                <label>Data:</label required>
+                <label>Data:</label>
                 <input type="date" id="data-inicial">
 
                 <label>Horário:</label required>
@@ -51,10 +55,13 @@
                 <textarea id="observacoes" placeholder="Digite observações"></textarea>
 
                 <div class="acoes-veiculo">
-                    <button id="btn-salvar-veiculo">Cancelar</button>
+                    <button id="btn-cancelar-veiculo" onclick="cancelarVeiculoInfo()">Cancelar</button>
                     <button id="btn-salvar-veiculo" onclick="salvarVeiculoInfo()">Fazer check-in</button>
-                    <!-- <button id="btn-abs-veiculo" onclick="abrirPopupAbastecimento()">Abastecimento</button>
-                    <button id="btn-checkout" onclick="checkoutChamado()">Fazer check-out</button> -->
+
+                    <button id="btn-abs-veiculo" onclick="abrirPopupAbastecimento()"
+                        style="display: none;">Abastecimento</button>
+                    <button id="btn-checkout" onclick="checkoutChamado()" style="display: none;">Fazer
+                        check-out</button>
                 </div>
             </div>
         </div>
