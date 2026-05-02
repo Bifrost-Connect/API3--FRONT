@@ -140,115 +140,120 @@ window.carregarDadosTelaInicial = function () {
     }
 };
 
-// --- POPUP ABASTECIMENTO ---
-window.abrirPopupAbastecimento = () => {
-    const popup = document.getElementById("popupAbastecimento");
-    if (popup) popup.style.display = "flex";
-};
-
 document.addEventListener("DOMContentLoaded", () => {
 
+    // 1. FUNÇÃO PARA ABRIR O POPUP (Colocada no window para o HTML enxergar)
+    window.abrirPopupAbastecimento = () => {
+        const popup = document.getElementById("popupAbastecimento");
+        if (popup) popup.style.display = "flex";
+    };
+
+    // 2. REFERÊNCIAS DOS ELEMENTOS
+    const popupAbs = document.getElementById('popupAbastecimento');
+    const popupConf = document.getElementById('popupConfirmacao');
+    const popupSuc = document.getElementById('popupSucesso');
+
+    const btnSalvarAbs = document.getElementById('btn-salvar-abastecimento');
     const btnVoltar = document.getElementById("btn-voltar");
+    const btnCancelaConf = document.getElementById('btn-cancelar-confirmacao');
+    const btnConfirmaFin = document.getElementById('btn-confirmar-final');
+    const btnFechaSuc = document.getElementById('btn-fechar-sucesso');
+
+    // --- EVENTOS ---
+
+    // Botão Voltar (do formulário)
     if (btnVoltar) {
-        btnVoltar.addEventListener("click", () => {
-            const popup = document.getElementById("popupAbastecimento");
-            if (popup) popup.style.display = "none";
-        });
+        btnVoltar.onclick = () => popupAbs.style.display = "none";
     }
 
-    const btnSalvar = document.getElementById("btn-salvar-abastecimento");
-    if (btnSalvar) {
-        btnSalvar.addEventListener("click", async () => {
-
-            const campos = ['litros-abastecimento', 'preco-litro', 'km-veiculo', 'nf-abastecimento', 'data-abastecimento', 'hora-abastecimento', 'troca-oleo'];
+    // Botão Salvar (Valida e abre Confirmação)
+    if (btnSalvarAbs) {
+        btnSalvarAbs.onclick = () => {
+            const camposIds = ['litros-abastecimento', 'preco-litro', 'km-veiculo', 'nf-abastecimento', 'data-abastecimento', 'hora-abastecimento', 'troca-oleo'];
             let algumVazio = false;
 
-            campos.forEach(id => {
+            camposIds.forEach(id => {
                 const input = document.getElementById(id);
-                if (input.value === "") {
-                    input.style.borderColor = "red"; // Marca de vermelho
+                if (!input || input.value.trim() === "") {
+                    if (input) input.style.borderColor = "red";
                     algumVazio = true;
                 } else {
-                    input.style.borderColor = "#252020"; // Volta ao normal
+                    if (input) input.style.borderColor = "#252020";
                 }
             });
 
             if (algumVazio) {
-                mostrarToast("Preencha todos os campos.");
-                return;
+                mostrarToast("Preencha todos os campos!");
+                return; // PARA AQUI se estiver vazio
             }
 
+            // Se estiver tudo ok, troca de popup
+            popupAbs.style.display = 'none';
+            popupConf.style.display = 'flex';
+        };
+    }
 
+    // Botão Cancelar (na confirmação)
+    if (btnCancelaConf) {
+        btnCancelaConf.onclick = () => {
+            popupConf.style.display = 'none';
+            popupAbs.style.display = 'flex';
+        };
+    }
+
+    // Botão Confirmar Final (Envia e mostra Sucesso)
+    if (btnConfirmaFin) {
+        btnConfirmaFin.onclick = async () => {
             const serviceId = localStorage.getItem("activeServiceId");
-
+            const litros = document.getElementById("litros-abastecimento")?.value;
+            const data = document.getElementById("data-abastecimento")?.value;
+            const hora = document.getElementById("hora-abastecimento")?.value;
 
             if (!serviceId) {
                 mostrarToast("Nenhum serviço ativo.");
                 return;
             }
 
-            popupAbastecimento.style.display = 'none';
-            popupConfirmacao.style.display = 'flex';
-
             try {
-                const response = await fetch(`http://localhost:8080/service/${serviceId}/fuel`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        amount: parseFloat(valor),
-                        date: data,
-                        time: hora
-                    })
-                });
+                // Tenta enviar se tiver serviceId
+                if (serviceId) {
+                    await fetch(`http://localhost:8080/service/${serviceId}/fuel`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            amount: parseFloat(litros),
+                            date: data,
+                            time: hora
+                        })
+                    });
+                }
 
                 if (response.ok) {
                     mostrarToast("Abastecimento registrado!");
-                    const popup = document.getElementById("popupAbastecimento");
-                    if (popup) popup.style.display = "none";
+                    document.getElementById("popupAbastecimento").style.display = "none";
+
+                    // Abre o popup de sucesso se ele existir no HTML
+                    const popupSucesso = document.getElementById("popupSucesso");
+                    if (popupSucesso) popupSucesso.style.display = "flex";
                 } else {
                     mostrarToast("Erro ao salvar abastecimento.");
                 }
 
             } catch (error) {
-                console.error(error);
+                console.error("Erro no Fetch:", error);
                 mostrarToast("Erro de conexão.");
             }
-        });
+
+            // Avança para a tela de sucesso de qualquer forma (para teste visual)
+            popupConf.style.display = 'none';
+            popupSuc.style.display = 'flex';
+        };
     }
 
-});
-
-// confirmação de abastecimento
-
-const popupAbastecimento = document.getElementById('popupAbastecimento');
-const popupConfirmacao = document.getElementById('popupConfirmacao');
-const popupSucesso = document.getElementById('popupSucesso');
-
-const btnSalvarAbastecimento = document.getElementById('btn-salvar-abastecimento');
-const btnCancelarConfirmacao = document.getElementById('btn-cancelar-confirmacao');
-const btnConfirmarFinal = document.getElementById('btn-confirmar-final');
-const btnFecharSucesso = document.getElementById('btn-fechar-sucesso');
-
-btnSalvarAbastecimento.addEventListener('click', () => {
-    popupAbastecimento.style.display = 'none'; // Esconde o formulário
-    popupConfirmacao.style.display = 'flex'; // Mostra a confirmação
-});
-
-btnCancelarConfirmacao.addEventListener('click', () => {
-    popupConfirmacao.style.display = 'none';
-    popupAbastecimento.style.display = 'flex'; // Volta para o formulário
-});
-
-btnConfirmarFinal.addEventListener('click', () => {
-
-    popupConfirmacao.style.display = 'none';
-    popupSucesso.style.display = 'flex'; // Mostra o sucesso
-});
-
-btnFecharSucesso.addEventListener('click', () => {
-    popupSucesso.style.display = 'none';
+    // Botão Fechar Sucesso
+    if (btnFechaSuc) {
+        btnFechaSuc.onclick = () => popupSuc.style.display = 'none';
+    }
 });
 
 //Função para mostrar o Toast
