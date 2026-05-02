@@ -401,7 +401,8 @@ body {
 }
 
 #inputPesquisa {
-    flex: 1; /* Faz o input ocupar o máximo de espaço */
+    flex: 1;
+    /* Faz o input ocupar o máximo de espaço */
     padding: 12px 15px;
     border: 1px solid #d7d7d7;
     border-radius: 8px;
@@ -476,7 +477,8 @@ body {
     width: 20px;
     height: 20px;
     opacity: 0.7;
-    pointer-events: none; /* Faz o clique passar direto para o select */
+    pointer-events: none;
+    /* Faz o clique passar direto para o select */
 }
 
 /* O select fica por cima, mas totalmente transparente */
@@ -485,9 +487,11 @@ body {
     inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0; /* Torna o select invisível */
+    opacity: 0;
+    /* Torna o select invisível */
     cursor: pointer;
-    appearance: none; /* Remove a setinha padrão do navegador */
+    appearance: none;
+    /* Remove a setinha padrão do navegador */
 }
 
 .btn-filtro-abrir {
@@ -530,6 +534,55 @@ body {
     border-radius: 6px;
     border: 1px solid #d7d7d7;
     background: #f9f9f9;
+}
+
+#abastecimentop {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    width: min(90%, 560px);
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+#abastecimentop::-webkit-scrollbar {
+    width: 8px;
+}
+
+#abastecimentop::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#abastecimentop::-webkit-scrollbar-thumb {
+    background: #12308f;
+    border-radius: 10px;
+}
+
+#abastecimentop::-webkit-scrollbar-thumb:hover {
+    background: #0e2877;
+}
+
+#toast-aviso {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4d4d; /* Vermelho para erro */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    z-index: 3000;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: opacity 0.3s, top 0.3s;
+}
+
+.toast-hidden {
+    display: none;
+    opacity: 0;
 }
 
 /* Ajuste opcional para dispositivos móveis */

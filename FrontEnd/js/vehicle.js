@@ -22,6 +22,7 @@ window.voltarParaVeiculos = () => {
 // CONFIRMAR CHECK-IN
 window.confirmarVeiculo = () => {
     localStorage.setItem("selectedVehicle", JSON.stringify(tempVehicle));
+    localStorage.setItem("activeServiceId", "12345"); // ID fictício para o abastecimento funcionar
     fecharTodosModais();
 
     if (window.location.pathname.includes("chamados.html")) {
@@ -94,3 +95,46 @@ window.cadastrarVeiculo = async function() {
         alert("Erro de conexão.");
     }
 };
+
+// ABRIR FILTRO
+
+function abrirModalFiltro() {
+    document.getElementById('modalFiltroAvancado').style.display = 'flex';
+}
+
+function fecharModalFiltro() {
+    document.getElementById('modalFiltroAvancado').style.display = 'none';
+}
+
+function aplicarFiltros() {
+    const pesquisa = document.getElementById('inputPesquisa').value.toUpperCase();
+    const tipo = document.getElementById('filtroTipo').value.toUpperCase();
+    const marca = document.getElementById('filtroMarca').value.toUpperCase();
+    
+    const botoes = document.querySelectorAll('.btn-veiculo');
+
+    botoes.forEach(btn => {
+        const txtBotao = btn.textContent.toUpperCase();
+        const vTipo = btn.getAttribute('data-tipo').toUpperCase();
+        const vMarca = btn.getAttribute('data-marca').toUpperCase();
+
+        // Checa todas as condições simultaneamente
+        const batePesquisa = txtBotao.includes(pesquisa);
+        const bateTipo = (tipo === "TODOS" || vTipo === tipo);
+        const bateMarca = (marca === "TODOS" || vMarca === marca);
+
+        if (batePesquisa && bateTipo && bateMarca) {
+            btn.style.display = "block";
+        } else {
+            btn.style.display = "none";
+        }
+    });
+
+    fecharModalFiltro(); // Fecha após aplicar
+}
+
+// Vincula a pesquisa por texto para rodar a mesma lógica
+function filtrarVeiculos() {
+    aplicarFiltros(); 
+
+}

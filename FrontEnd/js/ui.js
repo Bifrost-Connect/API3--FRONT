@@ -98,7 +98,7 @@ window.fecharTodosModais = () => {
 };
 
 // CARREGAR DADOS TELA INICIAL (NOME E VEICULO)
-window.carregarDadosTelaInicial = function() {
+window.carregarDadosTelaInicial = function () {
     const userName = localStorage.getItem('userName');
     if (userName) {
         const technGreeting = document.getElementById('boas-vindas-titulo');
@@ -160,21 +160,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnSalvar) {
         btnSalvar.addEventListener("click", async () => {
 
-            const valor = document.getElementById("valor-abastecimento")?.value;
-            const data = document.getElementById("data-abastecimento")?.value;
-            const hora = document.getElementById("hora-abastecimento")?.value;
+            const campos = ['litros-abastecimento', 'preco-litro', 'km-veiculo', 'nf-abastecimento', 'data-abastecimento', 'hora-abastecimento', 'troca-oleo'];
+            let algumVazio = false;
+
+            campos.forEach(id => {
+                const input = document.getElementById(id);
+                if (input.value === "") {
+                    input.style.borderColor = "red"; // Marca de vermelho
+                    algumVazio = true;
+                } else {
+                    input.style.borderColor = "#252020"; // Volta ao normal
+                }
+            });
+
+            if (algumVazio) {
+                mostrarToast("Preencha todos os campos.");
+                return;
+            }
+
 
             const serviceId = localStorage.getItem("activeServiceId");
 
-            if (!valor || !data || !hora) {
-                alert("Preencha todos os campos.");
+
+            if (!serviceId) {
+                mostrarToast("Nenhum serviço ativo.");
                 return;
             }
 
-            if (!serviceId) {
-                alert("Nenhum serviço ativo.");
-                return;
-            }
+            popupAbastecimento.style.display = 'none';
+            popupConfirmacao.style.display = 'flex';
 
             try {
                 const response = await fetch(`http://localhost:8080/service/${serviceId}/fuel`, {
@@ -190,18 +204,66 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 if (response.ok) {
-                    alert("Abastecimento registrado!");
+                    mostrarToast("Abastecimento registrado!");
                     const popup = document.getElementById("popupAbastecimento");
                     if (popup) popup.style.display = "none";
                 } else {
-                    alert("Erro ao salvar abastecimento.");
+                    mostrarToast("Erro ao salvar abastecimento.");
                 }
 
             } catch (error) {
                 console.error(error);
-                alert("Erro de conexão.");
+                mostrarToast("Erro de conexão.");
             }
         });
     }
 
 });
+
+// confirmação de abastecimento
+
+const popupAbastecimento = document.getElementById('popupAbastecimento');
+const popupConfirmacao = document.getElementById('popupConfirmacao');
+const popupSucesso = document.getElementById('popupSucesso');
+
+const btnSalvarAbastecimento = document.getElementById('btn-salvar-abastecimento');
+const btnCancelarConfirmacao = document.getElementById('btn-cancelar-confirmacao');
+const btnConfirmarFinal = document.getElementById('btn-confirmar-final');
+const btnFecharSucesso = document.getElementById('btn-fechar-sucesso');
+
+btnSalvarAbastecimento.addEventListener('click', () => {
+    popupAbastecimento.style.display = 'none'; // Esconde o formulário
+    popupConfirmacao.style.display = 'flex'; // Mostra a confirmação
+});
+
+btnCancelarConfirmacao.addEventListener('click', () => {
+    popupConfirmacao.style.display = 'none';
+    popupAbastecimento.style.display = 'flex'; // Volta para o formulário
+});
+
+btnConfirmarFinal.addEventListener('click', () => {
+
+    popupConfirmacao.style.display = 'none';
+    popupSucesso.style.display = 'flex'; // Mostra o sucesso
+});
+
+btnFecharSucesso.addEventListener('click', () => {
+    popupSucesso.style.display = 'none';
+});
+
+//Função para mostrar o Toast
+function mostrarToast(mensagem) {
+    const toast = document.getElementById("toast-aviso");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden");
+
+        // Esconde após 3 segundos
+        setTimeout(() => {
+            toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}
+
