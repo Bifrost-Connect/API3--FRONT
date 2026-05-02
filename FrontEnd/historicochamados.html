@@ -29,7 +29,8 @@
         <div class="historico-dashboard-topo">
             <div>
                 <h1>Painel completo de chamados</h1>
-                <p>Acompanhe os atendimentos finalizados e em andamento com dados de prazo, viatura, responsável, prioridade e observações.</p>
+                <p>Acompanhe os atendimentos finalizados e em andamento com dados de prazo, viatura, responsável,
+                    prioridade e observações.</p>
             </div>
         </div>
 
@@ -73,7 +74,8 @@
         <div class="historico-busca-panel">
             <span class="historico-busca-label">Buscar técnico por nome, matrícula ou e-mail</span>
             <div class="historico-busca-input">
-                <input id="filtroBusca" type="text" placeholder="Digite nome ou matrícula" oninput="aplicarFiltrosHistorico()">
+                <input id="filtroBusca" type="text" placeholder="Digite nome ou matrícula"
+                    oninput="aplicarFiltrosHistorico()">
             </div>
         </div>
 
@@ -101,6 +103,9 @@
         <a href="#">DÚVIDAS</a>
         <a href="configuracoes-gestor.html">CONFIGURAÇÕES</a>
     </div>
+
+    <div id="toast-aviso" class="toast-hidden">Preencha todos os campos!</div>
+    <div id="toast-aviso1" class="toast-hidden1">Preencha todos os campos!</div>
 
     <script src="js/ui.js"></script>
     <script src="js/auth.js"></script>
@@ -249,11 +254,11 @@
 
         function montarDetalhe(label, value) {
             return `
-                <div class="detalhe-bloco">
-                    <span class="detalhe-label">${label}</span>
-                    <strong>${value || "Não há"}</strong>
-                </div>
-            `;
+    <div class="detalhe-bloco">
+        <span class="detalhe-label">${label}</span>
+        <strong>${value || "Não há"}</strong>
+    </div>
+    `;
         }
 
         function renderizarChamados(lista) {
@@ -262,8 +267,8 @@
 
             if (!lista || lista.length === 0) {
                 container.innerHTML = `
-                    <div class="nenhum-registro">Nenhum chamado encontrado com esses filtros.</div>
-                `;
+    <div class="nenhum-registro">Nenhum chamado encontrado com esses filtros.</div>
+    `;
                 return;
             }
 
@@ -302,25 +307,26 @@
                 }
 
                 return `
-                    <article class="historico-item ${itemClass}">
-                        <div class="historico-item-topo">
-                            <div>
-                                <div class="historico-header-linha">
-                                    <span class="historico-numero">Chamado N° ${chamado.id}</span>
-                                    <span class="status-chip ${statusClass}">${chamado.statusLabel}</span>
-                                </div>
-                                <h3>${chamado.title}</h3>
-                                <p class="historico-subtitulo">${chamado.subtitle}</p>
-                            </div>
-                            <div class="historico-prioridade ${chamado.priorityClass}">${chamado.priorityLabel}</div>
-                        </div>
-                        <div class="historico-detalhes">
-                            ${detalhes}
-                        </div>
-                        <p class="historico-observacao">${chamado.observacao}</p>
-                        <button type="button" class="btn-detalhes" onclick="abrirDetalhesChamado(${chamado.id})">Ver detalhes completos</button>
-                    </article>
-                `;
+    <article class="historico-item ${itemClass}">
+        <div class="historico-item-topo">
+            <div>
+                <div class="historico-header-linha">
+                    <span class="historico-numero">Chamado N° ${chamado.id}</span>
+                    <span class="status-chip ${statusClass}">${chamado.statusLabel}</span>
+                </div>
+                <h3>${chamado.title}</h3>
+                <p class="historico-subtitulo">${chamado.subtitle}</p>
+            </div>
+            <div class="historico-prioridade ${chamado.priorityClass}">${chamado.priorityLabel}</div>
+        </div>
+        <div class="historico-detalhes">
+            ${detalhes}
+        </div>
+        <p class="historico-observacao">${chamado.observacao}</p>
+        <button type="button" class="btn-detalhes" onclick="abrirDetalhesChamado(${chamado.id})">Ver detalhes
+            completos</button>
+    </article>
+    `;
             }).join("");
         }
 
@@ -349,29 +355,29 @@
 
             document.getElementById("popupDetalhesTitulo").textContent = `Chamado N° ${chamado.id} • ${chamado.statusLabel}`;
             document.getElementById("popupDetalhesConteudo").innerHTML = `
-                <div class="popup-grid">
-                    ${montarDetalhe("Técnico responsável", chamado.tecnico || chamado.responsavel)}
-                    ${montarDetalhe("Abertura", chamado.abertura)}
-                    ${montarDetalhe("Local", chamado.local)}
-                    ${montarDetalhe("Prioridade", chamado.priorityLabel)}
-                    ${montarDetalhe("Situação", chamado.statusLabel)}
-                    ${chamado.status === "finalizado" ? montarDetalhe("Execução", chamado.execucao) : ""}
-                    ${chamado.status === "finalizado" ? montarDetalhe("Duração", chamado.duracao) : ""}
-                    ${chamado.status === "finalizado" ? montarDetalhe("Ocorrência", chamado.ocorrencia) : ""}
-                    ${chamado.status === "finalizado" ? montarDetalhe("Relatório", chamado.relatorio) : ""}
-                    ${chamado.status === "andamento" ? montarDetalhe("Andamento", chamado.andamento) : ""}
-                    ${chamado.status === "andamento" ? montarDetalhe("Estimativa", chamado.estimativa) : ""}
-                    ${chamado.status === "aguardando-tecnico" ? montarDetalhe("Prazo", chamado.prazo) : ""}
-                </div>
-                <div class="popup-obs">
-                    <strong>Descrição do técnico:</strong>
-                    <p>${chamado.descricaoTecnico}</p>
-                </div>
-                <div class="popup-obs">
-                    <strong>Observação geral:</strong>
-                    <p>${chamado.observacao}</p>
-                </div>
-            `;
+    <div class="popup-grid">
+        ${montarDetalhe("Técnico responsável", chamado.tecnico || chamado.responsavel)}
+        ${montarDetalhe("Abertura", chamado.abertura)}
+        ${montarDetalhe("Local", chamado.local)}
+        ${montarDetalhe("Prioridade", chamado.priorityLabel)}
+        ${montarDetalhe("Situação", chamado.statusLabel)}
+        ${chamado.status === "finalizado" ? montarDetalhe("Execução", chamado.execucao) : ""}
+        ${chamado.status === "finalizado" ? montarDetalhe("Duração", chamado.duracao) : ""}
+        ${chamado.status === "finalizado" ? montarDetalhe("Ocorrência", chamado.ocorrencia) : ""}
+        ${chamado.status === "finalizado" ? montarDetalhe("Relatório", chamado.relatorio) : ""}
+        ${chamado.status === "andamento" ? montarDetalhe("Andamento", chamado.andamento) : ""}
+        ${chamado.status === "andamento" ? montarDetalhe("Estimativa", chamado.estimativa) : ""}
+        ${chamado.status === "aguardando-tecnico" ? montarDetalhe("Prazo", chamado.prazo) : ""}
+    </div>
+    <div class="popup-obs">
+        <strong>Descrição do técnico:</strong>
+        <p>${chamado.descricaoTecnico}</p>
+    </div>
+    <div class="popup-obs">
+        <strong>Observação geral:</strong>
+        <p>${chamado.observacao}</p>
+    </div>
+    `;
 
             const popup = document.getElementById("popupChamadoDetalhes");
             if (popup) popup.style.display = "flex";
@@ -387,4 +393,5 @@
         });
     </script>
 </body>
+
 </html>

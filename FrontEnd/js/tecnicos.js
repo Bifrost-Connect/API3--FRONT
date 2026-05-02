@@ -145,7 +145,7 @@ function salvarAlteracoesTecnico() {
     const status = document.getElementById("editarStatus").value;
 
     if (!nome || !email || !matricula) {
-        alert("Nome, e-mail e matrícula são obrigatórios.");
+        mostrarToast("Nome, e-mail e matrícula são obrigatórios.");
         return;
     }
 
@@ -172,7 +172,7 @@ function salvarAlteracoesTecnico() {
         fecharPopupEditarTecnico();
     })
     .catch(() => {
-        alert("Erro ao atualizar técnico");
+        mostrarToast("Erro ao atualizar técnico");
     });
 }
 
@@ -203,3 +203,19 @@ function carregarTecnicosBackend() {
 window.addEventListener("DOMContentLoaded", () => {
     carregarTecnicosBackend();
 });
+
+//Função para mostrar o Toast
+function mostrarToast(mensagem) {
+    const toast = document.getElementById("toast-aviso");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden");
+
+        // Esconde após 3 segundos
+        setTimeout(() => {
+            toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}

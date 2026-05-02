@@ -6,7 +6,7 @@ window.cadastrarUsuario = async function() {
     const passwordInput = document.getElementById("cadSenha")?.value;
 
     if (!nameInput || !emailInput || !registrationInput || !passwordInput) {
-        alert("Preencha todos os campos!");
+        mostrarToast("Preencha todos os campos!");
         return;
     }
 
@@ -39,12 +39,12 @@ window.cadastrarUsuario = async function() {
 
         } else {
             const errorMsg = await response.text();
-            alert("Erro ao cadastrar: " + errorMsg);
+            mostrarToast("Erro ao cadastrar: " + errorMsg);
         }
 
     } catch (error) {
         console.error("Connection error:", error);
-        alert("Erro de conexão com o servidor.");
+        mostrarToast("Erro de conexão com o servidor.");
     }
 };
 
@@ -77,3 +77,19 @@ btnConfirmarFinal.onclick = (e) => {
 btnFecharSucesso.addEventListener('click', () => {
     popupSucesso.style.display = 'none';
 });
+
+//Função para mostrar o Toast
+function mostrarToast(mensagem) {
+    const toast = document.getElementById("toast-aviso");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden");
+
+        // Esconde após 3 segundos
+        setTimeout(() => {
+            toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}

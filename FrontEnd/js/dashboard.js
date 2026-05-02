@@ -31,3 +31,19 @@ document.addEventListener("DOMContentLoaded", () => {
         carregarMetricasDashboard();
     }
 });
+
+//Função para mostrar o Toast
+function mostrarToast(mensagem) {
+    const toast = document.getElementById("toast-aviso");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden");
+
+        // Esconde após 3 segundos
+        setTimeout(() => {
+            toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}

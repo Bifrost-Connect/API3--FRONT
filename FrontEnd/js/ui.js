@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 if (response.ok) {
-                    mostrarToast("Abastecimento registrado!");
+                    mostrarToast1("Abastecimento registrado!");
                     document.getElementById("popupAbastecimento").style.display = "none";
 
                     // Abre o popup de sucesso se ele existir no HTML
@@ -270,3 +270,18 @@ function mostrarToast(mensagem) {
     }
 }
 
+//Função para mostrar o Toast
+function mostrarToast1(mensagem) {
+    const toast = document.getElementById("toast-aviso1");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden");
+
+        // Esconde após 3 segundos
+        setTimeout(() => {
+            toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}

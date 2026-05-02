@@ -6,7 +6,7 @@ window.salvarVeiculoInfo = async function() {
     const vehicle = JSON.parse(localStorage.getItem('selectedVehicle'));
 
     if (!vehicle || !matricula) {
-        alert("Erro: Matrícula do usuário ou veículo não encontrados.");
+        mostrarToast("Erro: Matrícula do usuário ou veículo não encontrados.");
         return;
     }
 
@@ -28,9 +28,9 @@ window.salvarVeiculoInfo = async function() {
             localStorage.setItem("activeServiceId", data.serviceId);
             localStorage.setItem("km", kmInput);
             localStorage.setItem("obs", obsInput);
-            alert("Check-in confirmado no sistema!");
+            mostrarToast1("Check-in confirmado no sistema!");
         } else {
-            alert("Erro ao realizar check-in no banco.");
+            mostrarToast("Erro ao realizar check-in no banco.");
         }
     } catch (error) {
         console.error("Erro na API:", error);
@@ -46,7 +46,7 @@ window.checkoutChamado = async () => {
     const kmFinal = document.getElementById("quilometragem-inicial")?.value;
 
     if (!serviceId) {
-        alert("Nenhum serviço ativo encontrado para fazer check-out.");
+        mostrarToast("Nenhum serviço ativo encontrado para fazer check-out.");
         return;
     }
 
@@ -68,7 +68,7 @@ window.checkoutChamado = async () => {
             const modal = document.getElementById("modalAvisoCheckout");
             if (modal) modal.style.display = "flex";
         } else {
-            alert("Erro ao fazer o check-out no servidor.");
+            mostrarToast("Erro ao fazer o check-out no servidor.");
         }
     } catch (error) {
         console.error("Erro na API de Checkout:", error);
@@ -78,3 +78,35 @@ window.checkoutChamado = async () => {
 window.finalizarCheckout = () => {
     window.location.reload();
 };
+
+//Função para mostrar o Toast
+function mostrarToast(mensagem) {
+    const toast = document.getElementById("toast-aviso");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden");
+
+        // Esconde após 3 segundos
+        setTimeout(() => {
+            toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}
+
+//Função para mostrar o Toast
+function mostrarToast1(mensagem) {
+    const toast = document.getElementById("toast-aviso1");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden");
+
+        // Esconde após 3 segundos
+        setTimeout(() => {
+            toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}
