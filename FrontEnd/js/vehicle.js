@@ -33,7 +33,7 @@ window.confirmarVeiculo = () => {
 };
 
 // SALVAR INFORMAÇÕES DO VEÍCULO (API)
-window.salvarVeiculoInfo = async function() {
+window.salvarVeiculoInfo = async function () {
     const mileageInput = document.getElementById("quilometragem-inicial")?.value;
     const notesInput = document.getElementById("observacoes")?.value;
 
@@ -61,7 +61,7 @@ window.salvarVeiculoInfo = async function() {
 };
 
 // CADASTRAR VEÍCULO
-window.cadastrarVeiculo = async function() {
+window.cadastrarVeiculo = async function () {
     const payload = {
         prefix: document.getElementById("cad-prefixo")?.value,
         licensePlate: document.getElementById("cad-placa")?.value,
@@ -110,7 +110,7 @@ function aplicarFiltros() {
     const pesquisa = document.getElementById('inputPesquisa').value.toUpperCase();
     const tipo = document.getElementById('filtroTipo').value.toUpperCase();
     const marca = document.getElementById('filtroMarca').value.toUpperCase();
-    
+
     const botoes = document.querySelectorAll('.btn-veiculo');
 
     botoes.forEach(btn => {
@@ -135,6 +135,36 @@ function aplicarFiltros() {
 
 // Vincula a pesquisa por texto para rodar a mesma lógica
 function filtrarVeiculos() {
-    aplicarFiltros(); 
+    aplicarFiltros();
 
 }
+
+// salvar info
+
+const popupConfirmacao = document.getElementById('popupConfirmacao');
+const popupSucesso = document.getElementById('popupSucesso');
+const btncadastrar = document.getElementById('btncadastrar');
+const btnCancelar = document.getElementById('btn-cancelar-confirmacao');
+const btnConfirmarFinal = document.getElementById('btn-confirmar-final');
+const btnFecharSucesso = document.getElementById('btn-fechar-sucesso');
+
+btncadastrar.addEventListener('click', () => {
+    popupConfirmacao.style.display = 'flex';
+});
+
+btnCancelar.addEventListener('click', () => {
+    popupConfirmacao.style.display = 'none';
+    return
+});
+
+btnConfirmarFinal.onclick = (e) => {
+    e.preventDefault();
+    
+    popupConfirmacao.style.display = 'none';
+    popupSucesso.style.display = 'flex';
+};
+
+// 4. Fechar o popup de sucesso final
+btnFecharSucesso.addEventListener('click', () => {
+    popupSucesso.style.display = 'none';
+});

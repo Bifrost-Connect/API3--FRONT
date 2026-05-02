@@ -47,3 +47,33 @@ window.cadastrarUsuario = async function() {
         alert("Erro de conexão com o servidor.");
     }
 };
+
+// salvar info
+
+const popupConfirmacao = document.getElementById('popupConfirmacao');
+const popupSucesso = document.getElementById('popupSucesso');
+const btncadastrar = document.getElementById('btncadastrar');
+const btnCancelar = document.getElementById('btn-cancelar-confirmacao');
+const btnConfirmarFinal = document.getElementById('btn-confirmar-final');
+const btnFecharSucesso = document.getElementById('btn-fechar-sucesso');
+
+btncadastrar.addEventListener('click', () => {
+    popupConfirmacao.style.display = 'flex';
+});
+
+btnCancelar.addEventListener('click', () => {
+    popupConfirmacao.style.display = 'none';
+    return
+});
+
+btnConfirmarFinal.onclick = (e) => {
+    e.preventDefault(); // Bloqueia o refresh da página (essencial)
+    
+    popupConfirmacao.style.display = 'none';
+    popupSucesso.style.display = 'flex';
+};
+
+// 4. Fechar o popup de sucesso final
+btnFecharSucesso.addEventListener('click', () => {
+    popupSucesso.style.display = 'none';
+});

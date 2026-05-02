@@ -148,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (popup) popup.style.display = "flex";
     };
 
-    // 2. REFERÊNCIAS DOS ELEMENTOS
     const popupAbs = document.getElementById('popupAbastecimento');
     const popupConf = document.getElementById('popupConfirmacao');
     const popupSuc = document.getElementById('popupSucesso');
@@ -159,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnConfirmaFin = document.getElementById('btn-confirmar-final');
     const btnFechaSuc = document.getElementById('btn-fechar-sucesso');
 
-    // --- EVENTOS ---
 
     // Botão Voltar (do formulário)
     if (btnVoltar) {
