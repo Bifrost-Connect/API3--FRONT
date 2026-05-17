@@ -109,21 +109,18 @@ function fecharModalFiltro() {
 function aplicarFiltros() {
     const pesquisa = document.getElementById('inputPesquisa').value.toUpperCase();
     const tipo = document.getElementById('filtroTipo').value.toUpperCase();
-    const marca = document.getElementById('filtroMarca').value.toUpperCase();
 
     const botoes = document.querySelectorAll('.btn-veiculo');
 
     botoes.forEach(btn => {
         const txtBotao = btn.textContent.toUpperCase();
         const vTipo = btn.getAttribute('data-tipo').toUpperCase();
-        const vMarca = btn.getAttribute('data-marca').toUpperCase();
 
         // Checa todas as condições simultaneamente
         const batePesquisa = txtBotao.includes(pesquisa);
         const bateTipo = (tipo === "TODOS" || vTipo === tipo);
-        const bateMarca = (marca === "TODOS" || vMarca === marca);
 
-        if (batePesquisa && bateTipo && bateMarca) {
+        if (batePesquisa && bateTipo) {
             btn.style.display = "block";
         } else {
             btn.style.display = "none";
@@ -213,6 +210,7 @@ function salvarVeiculoInfo() {
     document.getElementById('grupo-km-final').style.display = 'block';
     document.getElementById('btn-abs-veiculo').style.display = 'inline-block';
     document.getElementById('btn-checkout').style.display = 'inline-block';
+    document.getElementById('btn-cancelar-veiculo2').style.display = 'inline-block';
 }
 
 function cancelarVeiculoInfo() {

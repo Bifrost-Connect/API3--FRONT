@@ -285,3 +285,112 @@ function mostrarToast1(mensagem) {
         }, 3000);
     }
 }
+
+// Variável global para guardar o valor antigo caso o usuário cancele
+let valorKmOriginal = "";
+
+function alternarEdicaoKM(editando) {
+    const input = document.getElementById('quilometragem-inicial');
+    const btnEdit = document.getElementById('btn-edit-km');
+    const btnSave = document.getElementById('btn-save-km');
+    const btnCancel = document.getElementById('btn-cancel-km');
+
+    if (editando) {
+        // Salva o valor atual antes de começar a editar
+        valorKmOriginal = input.value;
+        
+        input.readOnly = false;
+        input.focus();
+        btnEdit.style.display = 'none';
+        btnSave.style.display = 'flex';
+        btnCancel.style.display = 'flex';
+    } else {
+        // Cancela: volta o valor original e tranca o campo
+        input.value = valorKmOriginal;
+        input.readOnly = true;
+        btnEdit.style.display = 'flex';
+        btnSave.style.display = 'none';
+        btnCancel.style.display = 'none';
+    }
+}
+
+function salvarEdicaoKM() {
+    const input = document.getElementById('quilometragem-inicial');
+    const btnEdit = document.getElementById('btn-edit-km');
+    const btnSave = document.getElementById('btn-save-km');
+    const btnCancel = document.getElementById('btn-cancel-km');
+
+    //adiciona validações
+    if (input.value.trim() === "") {
+        mostrarToast("Por favor, digite um valor.");
+        return;
+    }
+
+    // Tranca o campo e volta ao estado inicial de botões
+    input.readOnly = true;
+    btnEdit.style.display = 'flex';
+    btnSave.style.display = 'none';
+    btnCancel.style.display = 'none';
+    
+    mostrarToast1("Nova KM salva:", input.value);
+}
+
+// Selecionando os elementos
+document.addEventListener('DOMContentLoaded', () => {
+    // Selecionando os elementos com IDs exclusivos para evitar conflitos
+    const btnAbrirPopup = document.getElementById('btn-cancelar-veiculo2');
+    const popupCancelamento = document.getElementById('popupcancheckin');
+    const popupSucessoCancelamento = document.getElementById('popupSucessoCancelamento');
+    const campoTexto = document.getElementById('cancelamentocheckin');
+
+    const btnVoltar = document.getElementById('btn-cancelar-confirmacao1');
+    const btnConfirmarCancelamento = document.getElementById('btn-confirmar-cancelamento');
+    const btnFecharSucessoCancelamento = document.getElementById('btn-fechar-sucesso-cancelamento');
+
+    // Verifica se os elementos realmente existem na página antes de adicionar os eventos
+    if (btnAbrirPopup && popupCancelamento) {
+        // 1. Abrir o primeiro pop-up ao clicar no botão de cancelar
+        btnAbrirPopup.addEventListener('click', () => {
+            popupCancelamento.style.display = 'flex'; 
+        });
+    }
+
+    if (btnVoltar && popupCancelamento && campoTexto) {
+        // 2. Botão Voltar (fecha o pop-up sem fazer nada)
+        btnVoltar.addEventListener('click', () => {
+            popupCancelamento.style.display = 'none';
+            campoTexto.value = ''; // Limpa o texto
+        });
+    }
+
+    if (btnConfirmarCancelamento && campoTexto && popupCancelamento && popupSucessoCancelamento) {
+        // 3. Botão Confirmar Final
+        btnConfirmarCancelamento.addEventListener('click', () => {
+            const motivo = campoTexto.value.trim();
+
+            if (motivo === "") {
+                // Verifica se a função mostrarToast existe (evita quebrar se estiver em outro arquivo)
+                if (typeof mostrarToast === "function") {
+                    mostrarToast("Por favor, digite o motivo do cancelamento.");
+                } else {
+                    mostrarToast("Por favor, digite o motivo do cancelamento.");
+                }
+                return;
+            }
+
+            console.log("Cancelamento confirmado. Motivo:", motivo);
+
+            // Troca os pop-ups
+            popupCancelamento.style.display = 'none';
+            popupSucessoCancelamento.style.display = 'flex';
+        });
+    }
+
+    if (btnFecharSucessoCancelamento && popupSucessoCancelamento && campoTexto) {
+        // 4. Fechar pop-up de sucesso
+        btnFecharSucessoCancelamento.addEventListener('click', () => {
+            popupSucessoCancelamento.style.display = 'none';
+            campoTexto.value = '';
+        });
+    }
+});
