@@ -35,9 +35,22 @@
             </div>
 
             <div class="campos-adicionais" id="secao-pos-checkin" style="display: block;">
+
                 <div id="grupo-km-inicial">
                     <label>Quilometragem Inicial:</label>
-                    <input type="text" id="quilometragem-inicial" placeholder="Digite a quilometragem inicial">
+                    <div class="input-group-km">
+                        <input type="text" id="quilometragem-inicial" placeholder="Digite a quilometragem inicial"
+                            readonly>
+
+                        <button type="button" id="btn-edit-km" onclick="alternarEdicaoKM(true)" class="btn-acao-km">
+                            ✏️
+                        </button>
+
+                        <button type="button" id="btn-save-km" onclick="salvarEdicaoKM()" class="btn-acao-km success"
+                            style="display: none;">✔️</button>
+                        <button type="button" id="btn-cancel-km" onclick="alternarEdicaoKM(false)"
+                            class="btn-acao-km danger" style="display: none;">✖️</button>
+                    </div>
                 </div>
 
                 <div id="grupo-km-final" style="display: none;">
@@ -46,10 +59,10 @@
                 </div>
 
                 <label>Data:</label>
-                <input type="date" id="data-inicial">
+                <input type="date" id="data-inicial" required>
 
-                <label>Horário:</label required>
-                <input type="time" id="horario-inicial">
+                <label>Horário:</label >
+                <input type="time" id="horario-inicial" required>
 
                 <label>Observações:</label>
                 <textarea id="observacoes" placeholder="Digite observações"></textarea>
@@ -58,6 +71,7 @@
                     <button id="btn-cancelar-veiculo" onclick="cancelarVeiculoInfo()">Cancelar</button>
                     <button id="btn-salvar-veiculo" onclick="salvarVeiculoInfo()">Fazer check-in</button>
 
+                    <button id="btn-cancelar-veiculo2" style="display: none;">Cancelar</button>
                     <button id="btn-abs-veiculo" onclick="abrirPopupAbastecimento()"
                         style="display: none;">Abastecimento</button>
                     <button id="btn-checkout" onclick="checkoutChamado()" style="display: none;">Fazer
@@ -116,16 +130,6 @@
                     <option value="TODOS">Todos os tipos</option>
                     <option value="PASSEIO">Passeio</option>
                     <option value="UTILITÁRIO">Utilitário</option>
-                </select>
-            </div>
-
-            <div class="grupo-filtro">
-                <label for="filtroMarca">Marca</label>
-                <select id="filtroMarca">
-                    <option value="TODOS">Todas as marcas</option>
-                    <option value="FIAT">Fiat</option>
-                    <option value="MERCEDES">Mercedes</option>
-                    <option value="FORD">Ford</option>
                 </select>
             </div>
 
@@ -228,6 +232,29 @@
             <div class="popup-buttons">
                 <button id="btn-voltar" class="btn-voltar">Voltar</button>
                 <button id="btn-salvar-abastecimento" class="btn-aceitar">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="popupcancheckin" class="popup" style="display: none;">
+        <div class="popup-content">
+            <h2>Qual o motivo do cancelamento de Check-in?</h2>
+            <textarea id="cancelamentocheckin" placeholder="Digite aqui..." required></textarea>
+            <div class="popup-buttons">
+                <button id="btn-cancelar-confirmacao1" class="btn-voltar">Voltar</button>
+                <!-- Mudado ID para btn-confirmar-cancelamento -->
+                <button id="btn-confirmar-cancelamento" class="btn-aceitar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="popupSucessoCancelamento" class="popup" style="display: none;">
+        <div class="popup-content">
+            <h2>Sucesso!</h2>
+            <p>Cancelamento de Check-in realizado com sucesso.</p>
+            <div class="popup-buttons">
+                <!-- Mudado ID para btn-fechar-sucesso-cancelamento -->
+                <button id="btn-fechar-sucesso-cancelamento" class="btn-aceitar">OK</button>
             </div>
         </div>
     </div>
