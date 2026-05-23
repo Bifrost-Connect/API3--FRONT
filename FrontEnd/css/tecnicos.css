@@ -490,3 +490,26 @@ label {
         min-width: 100%;
     }
 }
+
+@media (max-width: 640px) {
+    .painel-tecnicos {
+        padding: 18px 16px;
+        border-radius: 18px;
+    }
+
+    .painel-tecnicos-topo h1 {
+        font-size: 24px;
+    }
+
+    .tecnicos-actions {
+        flex-direction: column;
+    }
+
+    .tecnicos-actions > * {
+        width: 100%;
+    }
+
+    .tecnicos-table {
+        min-width: 720px;
+    }
+}

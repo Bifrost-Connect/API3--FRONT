@@ -5,25 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico de Chamados</title>
+    <link rel="stylesheet" href="css/componentes.css">
     <link rel="stylesheet" href="css/historicochamados.css">
 </head>
 
 <body class="pagina-historico">
 
-    <div class="top-bar">
-        <div class="left">
-            <button id="btnmenu">
-                <img src="img/menu.png" alt="icone menu">
-            </button>
-            <span class="titulo" id="boas-vindas-titulo">Bem vindo!</span>
-        </div>
-
-        <div class="logout">
-            <button id="btnlogout" onclick="btnlogout()">
-                <img src="img/logout.png" alt="icone logout">
-            </button>
-        </div>
-    </div>
+    <div id="topbar-container"></div>
 
     <section class="historico-dashboard">
         <div class="historico-dashboard-topo">
@@ -91,24 +79,19 @@
         </div>
     </div>
 
-    <div id="overlayBlurSidebar" class="overlay-blur-sidebar"></div>
-
-    <div id="sidebar" class="sidebar">
-        <button id="btnx" class="close-btn">×</button>
-        <a href="telainicial-gestor.html">TELA INICIAL</a>
-        <a href="relatorios.html">RELATÓRIOS</a>
-        <a href="tecnicos-gestor.html">TÉCNICOS</a>
-        <a href="cadastrousuarios.html">CADASTRO DE USUÁRIOS</a>
-        <a href="cadastroveiculos.html">CADASTRO DE VEÍCULOS</a>
-        <a href="#">DÚVIDAS</a>
-        <a href="configuracoes-gestor.html">CONFIGURAÇÕES</a>
-    </div>
+    <div id="sidebar-container"></div>
 
     <div id="toast-aviso" class="toast-hidden">Preencha todos os campos!</div>
     <div id="toast-aviso1" class="toast-hidden1">Preencha todos os campos!</div>
 
+    <script src="js/componentes.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/auth.js"></script>
+    <script>
+        document.getElementById("topbar-container").insertAdjacentHTML("beforeend", renderizarTopBar("Histórico de Chamados"));
+        document.getElementById("sidebar-container").insertAdjacentHTML("beforeend", renderizarSidebarGestor());
+        inicializarComponentes();
+    </script>
     <script>
         <!-- DADOS INSERIDOS MANUALMENTE QUE DEVEM SER TROCADOS POSTERIORMENTE NO BACKEND -->
         const chamadosHistorico = [
@@ -124,6 +107,7 @@
                 dia: "20",
                 mes: "04",
                 ano: "2026",
+                placa: "AAA-1234",
                 prefixo: "1234",
                 tecnico: "",
                 responsavel: "Aguardando indicação",
@@ -147,6 +131,7 @@
                 dia: "20",
                 mes: "04",
                 ano: "2026",
+                placa: "BBB-5678",
                 prefixo: "5678",
                 tecnico: "Ana Paula Martins",
                 responsavel: "Ana Paula Martins",
@@ -170,6 +155,7 @@
                 dia: "17",
                 mes: "04",
                 ano: "2026",
+                placa: "CCC-9012",
                 prefixo: "9012",
                 tecnico: "Bruno Lima",
                 responsavel: "Bruno Lima",
@@ -193,6 +179,7 @@
                 dia: "17",
                 mes: "04",
                 ano: "2026",
+                placa: "DDD-3456",
                 prefixo: "3456",
                 tecnico: "Marcos Vinicius",
                 responsavel: "Marcos Vinicius",
@@ -216,6 +203,7 @@
                 dia: "20",
                 mes: "04",
                 ano: "2026",
+                placa: "EEE-7890",
                 prefixo: "7890",
                 tecnico: "Juliana Costa",
                 responsavel: "Juliana Costa",
@@ -239,6 +227,7 @@
                 dia: "16",
                 mes: "04",
                 ano: "2026",
+                placa: "FFF-4412",
                 prefixo: "4412",
                 tecnico: "Carla Mendes",
                 responsavel: "Carla Mendes",
@@ -259,6 +248,34 @@
         <strong>${value || "Não há"}</strong>
     </div>
     `;
+        }
+
+        function normalizarBuscaHistorico(valor) {
+            return (valor || "")
+                .toString()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-zA-Z0-9\s]/g, "")
+                .toLowerCase()
+                .trim();
+        }
+
+        function obterCamposBuscaChamado(chamado) {
+            return [
+                chamado.id,
+                chamado.matricula,
+                chamado.tecnico,
+                chamado.responsavel,
+                chamado.title,
+                chamado.subtitle,
+                chamado.priorityLabel,
+                chamado.statusLabel,
+                chamado.local,
+                chamado.observacao,
+                chamado.descricaoTecnico,
+                chamado.placa,
+                chamado.prefixo
+            ].map(normalizarBuscaHistorico);
         }
 
         function renderizarChamados(lista) {
@@ -331,13 +348,16 @@
         }
 
         function aplicarFiltrosHistorico() {
-            const busca = document.getElementById("filtroBusca").value.trim().toLowerCase();
+            const busca = document.getElementById("filtroBusca").value;
+            const termosBusca = normalizarBuscaHistorico(busca).split(/\s+/).filter(Boolean);
 
             const filtrados = chamadosHistorico.filter(chamado => {
-                if (!busca) return true;
-                const matricula = (chamado.matricula || "").toLowerCase();
-                const nome = (chamado.tecnico || chamado.responsavel || "").toLowerCase();
-                return matricula.includes(busca) || nome.includes(busca);
+                if (termosBusca.length === 0) return true;
+                const camposBusca = obterCamposBuscaChamado(chamado);
+
+                return termosBusca.every(termo =>
+                    camposBusca.some(campo => campo.includes(termo))
+                );
             });
 
             renderizarChamados(filtrados);
@@ -357,6 +377,8 @@
             document.getElementById("popupDetalhesConteudo").innerHTML = `
     <div class="popup-grid">
         ${montarDetalhe("Técnico responsável", chamado.tecnico || chamado.responsavel)}
+        ${montarDetalhe("Placa", chamado.placa)}
+        ${montarDetalhe("Prefixo", chamado.prefixo)}
         ${montarDetalhe("Abertura", chamado.abertura)}
         ${montarDetalhe("Local", chamado.local)}
         ${montarDetalhe("Prioridade", chamado.priorityLabel)}
@@ -389,6 +411,17 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
+            const buscaLabel = document.querySelector(".historico-busca-label");
+            const campoBusca = document.getElementById("filtroBusca");
+
+            if (buscaLabel) {
+                buscaLabel.textContent = "Buscar por tecnico, matricula, placa, prefixo ou termos do chamado";
+            }
+
+            if (campoBusca) {
+                campoBusca.placeholder = "Digite nome, matricula, placa ou prefixo";
+            }
+
             renderizarChamados(chamadosHistorico);
         });
     </script>

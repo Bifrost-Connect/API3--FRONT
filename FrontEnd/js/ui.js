@@ -52,24 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
         carregarDadosTelaInicial();
     }
 
-    const btnMenu = document.getElementById("btnmenu");
-    const sidebar = document.getElementById("sidebar");
-    const overlaySidebar = document.getElementById("overlayBlurSidebar");
-
-    const closeSidebar = () => {
-        if (sidebar) sidebar.style.width = "0";
-        if (overlaySidebar) overlaySidebar.classList.remove("active");
-    };
-
-    if (btnMenu && sidebar) btnMenu.onclick = () => {
-        sidebar.style.width = "250px";
-        if (overlaySidebar) overlaySidebar.classList.add("active");
-    };
-
-    const btnClose = document.getElementById("btnx");
-    if (btnClose) btnClose.onclick = closeSidebar;
-    if (overlaySidebar) overlaySidebar.onclick = closeSidebar;
-
     document.querySelectorAll(".sobreposicao").forEach(overlay => {
         overlay.addEventListener("click", event => {
             if (event.target === overlay) {
@@ -93,7 +75,7 @@ window.fecharTodosModais = () => {
 
     const sidebar = document.getElementById("sidebar");
     const overlaySidebar = document.getElementById("overlayBlurSidebar");
-    if (sidebar) sidebar.style.width = "0";
+    if (sidebar) sidebar.classList.remove("open");
     if (overlaySidebar) overlaySidebar.classList.remove("active");
 };
 
