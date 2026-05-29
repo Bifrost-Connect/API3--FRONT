@@ -328,13 +328,6 @@ body {
     max-width: 420px;
 }
 
-.lista-veiculos {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 14px;
-}
-
 .btn-veiculo,
 .btn-aceitar,
 .btn-voltar {
@@ -404,7 +397,6 @@ body {
 
 #inputPesquisa {
     flex: 1;
-    /* Faz o input ocupar o máximo de espaço */
     padding: 12px 15px;
     border: 1px solid #d7d7d7;
     border-radius: 8px;
@@ -474,26 +466,21 @@ body {
     background-color: #f0f0f0;
 }
 
-/* Estilo do ícone */
 .icone-filtro-fixo {
     width: 20px;
     height: 20px;
     opacity: 0.7;
     pointer-events: none;
-    /* Faz o clique passar direto para o select */
 }
 
-/* O select fica por cima, mas totalmente transparente */
 .select-invisivel {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     opacity: 0;
-    /* Torna o select invisível */
     cursor: pointer;
     appearance: none;
-    /* Remove a setinha padrão do navegador */
 }
 
 .btn-filtro-abrir {
@@ -513,7 +500,6 @@ body {
     opacity: 0.7;
 }
 
-/* Card menor para o filtro */
 .popup-filtro-menor {
     max-width: 350px !important;
 }
@@ -572,7 +558,7 @@ body {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #ff4d4d; /* Vermelho para erro */
+    background-color: #ff4d4d;
     color: white;
     padding: 12px 25px;
     border-radius: 8px;
@@ -607,7 +593,56 @@ body {
     opacity: 0;
 }
 
-/* Ajuste opcional para dispositivos móveis */
+
+.input-group-km {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group-km input {
+    flex: 1;
+    margin-bottom: 0 !important;
+    height: 48px;
+}
+
+.btn-acao-km {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #12308f;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    padding: 0;
+    font-size: 20px;
+}
+
+.btn-acao-km.success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-acao-km.danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-acao-km:hover {
+    filter: brightness(1.2);
+}
+
+input[readonly] {
+    background-color: #f0f0f0;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Responsividade para Mobile */
 @media (max-width: 480px) {
     .container-pesquisa {
         flex-direction: column;
@@ -631,4 +666,31 @@ body {
     .popup-detalhes-imagem img {
         max-width: 180px;
     }
+}
+
+/* Área de seleção de carros com a Scroll Bar ativa */
+.lista-veiculos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Customização fina da barra de rolagem (Webkit) */
+.lista-veiculos::-webkit-scrollbar {
+    width: 6px;
+}
+.lista-veiculos::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+.lista-veiculos::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+.lista-veiculos::-webkit-scrollbar-thumb:hover {
+    background: #999;
 }

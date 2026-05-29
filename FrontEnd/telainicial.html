@@ -5,20 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIVA - Home</title>
+    <link rel="stylesheet" href="css/componentes.css">
     <link rel="stylesheet" href="css/telainicial.css">
 </head>
 
 <body class="pagina-telainicial">
 
-    <div class="top-bar">
-        <div class="left">
-            <button id="btnmenu"><img src="img/menu.png" alt="menu"></button>
-            <span class="titulo" id="boas-vindas-titulo">Bem vindo!</span>
-        </div>
-        <div class="logout">
-            <button id="btnlogout" onclick="btnlogout()"><img src="img/logout.png" alt="logout"></button>
-        </div>
-    </div>
+    <div id="topbar-container"></div>
 
     <div class="quadros-container">
         <div class="quadro-esquerdo">
@@ -35,9 +28,22 @@
             </div>
 
             <div class="campos-adicionais" id="secao-pos-checkin" style="display: block;">
+
                 <div id="grupo-km-inicial">
                     <label>Quilometragem Inicial:</label>
-                    <input type="text" id="quilometragem-inicial" placeholder="Digite a quilometragem inicial">
+                    <div class="input-group-km">
+                        <input type="text" id="quilometragem-inicial" placeholder="Digite a quilometragem inicial"
+                            readonly>
+
+                        <button type="button" id="btn-edit-km" onclick="alternarEdicaoKM(true)" class="btn-acao-km">
+                            ✏️
+                        </button>
+
+                        <button type="button" id="btn-save-km" onclick="salvarEdicaoKM()" class="btn-acao-km success"
+                            style="display: none;">✔️</button>
+                        <button type="button" id="btn-cancel-km" onclick="alternarEdicaoKM(false)"
+                            class="btn-acao-km danger" style="display: none;">✖️</button>
+                    </div>
                 </div>
 
                 <div id="grupo-km-final" style="display: none;">
@@ -46,10 +52,10 @@
                 </div>
 
                 <label>Data:</label>
-                <input type="date" id="data-inicial">
+                <input type="date" id="data-inicial" required>
 
-                <label>Horário:</label required>
-                <input type="time" id="horario-inicial">
+                <label>Horário:</label>
+                <input type="time" id="horario-inicial" required>
 
                 <label>Observações:</label>
                 <textarea id="observacoes" placeholder="Digite observações"></textarea>
@@ -58,6 +64,7 @@
                     <button id="btn-cancelar-veiculo" onclick="cancelarVeiculoInfo()">Cancelar</button>
                     <button id="btn-salvar-veiculo" onclick="salvarVeiculoInfo()">Fazer check-in</button>
 
+                    <button id="btn-cancelar-veiculo2" style="display: none;">Cancelar</button>
                     <button id="btn-abs-veiculo" onclick="abrirPopupAbastecimento()"
                         style="display: none;">Abastecimento</button>
                     <button id="btn-checkout" onclick="checkoutChamado()" style="display: none;">Fazer
@@ -74,7 +81,6 @@
         </div>
     </div>
 
-    <!-- QUANDO APERTAR O BOTÃO SELECIONAR VEÍCULO -->
     <div id="modalConfirmacao" class="sobreposicao">
         <div class="popup-card">
             <h2 class="popup-titulo">Veículos Disponíveis</h2>
@@ -87,22 +93,7 @@
                 </button>
             </div>
 
-            <div id="listaVeiculos" class="lista-veiculos">
-                <button class="btn-veiculo" data-tipo="PASSEIO" data-marca="FIAT"
-                    onclick="selecionarVeiculo('Viatura 1', 'Argo', 'Fiat' ,'Passeio', '00001', 'aaa-1234')">
-                    Viatura 1 - Argo
-                </button>
-
-                <button class="btn-veiculo" data-tipo="UTILITÁRIO" data-marca="MERCEDES"
-                    onclick="selecionarVeiculo('Viatura 2', 'Sprinter', 'Mercedes', 'Utilitário', '00002', 'bbb-5678')">
-                    Viatura 2 - Sprinter
-                </button>
-
-                <button class="btn-veiculo" data-tipo="PASSEIO" data-marca="FORD"
-                    onclick="selecionarVeiculo('Viatura 3', 'Ka', 'Ford', 'Passeio', '00003', 'ccc-9012')">
-                    Viatura 3 - Ka
-                </button>
-            </div>
+            <div id="listaVeiculos" class="lista-veiculos"></div>
         </div>
     </div>
 
@@ -116,16 +107,6 @@
                     <option value="TODOS">Todos os tipos</option>
                     <option value="PASSEIO">Passeio</option>
                     <option value="UTILITÁRIO">Utilitário</option>
-                </select>
-            </div>
-
-            <div class="grupo-filtro">
-                <label for="filtroMarca">Marca</label>
-                <select id="filtroMarca">
-                    <option value="TODOS">Todas as marcas</option>
-                    <option value="FIAT">Fiat</option>
-                    <option value="MERCEDES">Mercedes</option>
-                    <option value="FORD">Ford</option>
                 </select>
             </div>
 
@@ -178,7 +159,6 @@
         </div>
     </div>
 
-    <!-- QUANDO APERTAR O BOTÃO ABASTECIMENTO -->
     <div id="popupAbastecimento" class="popup" id="abastecimentop">
         <div class="popup-content">
             <h2>Detalhes do Abastecimento</h2>
@@ -253,24 +233,20 @@
         </div>
     </div>
 
-    <!-- BLUR DA SIDEBAR -->
-    <div id="overlayBlurSidebar" class="overlay-blur-sidebar"></div>
-
-    <div id="sidebar" class="sidebar">
-        <button id="btnx" class="close-btn">×</button>
-        <a href="chamados.html">CHAMADOS</a>
-        <a href="#">DÚVIDAS</a>
-        <a href="configuracoes-tecnico.html">CONFIGURAÇÕES</a>
-    </div>
+    <div id="sidebar-container"></div>
 
     <div id="toast-aviso" class="toast-hidden">Preencha todos os campos!</div>
     <div id="toast-aviso1" class="toast-hidden1">Preencha todos os campos!</div>
 
-
+    <script src="js/basic.js"></script>
+    <script src="js/componentes.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/vehicle.js"></script>
     <script src="js/service.js"></script>
+    <script>
+        injetarLayout("Tela Inicial");
+    </script>
 </body>
 
 </html>

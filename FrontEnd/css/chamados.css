@@ -402,6 +402,49 @@ body {
     opacity: 0;
 }
 
+.mapa-card {
+    background-color: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+    max-width: 1180px;
+    width: 90%;
+    margin: 20px auto;
+}
+
+.mapa-titulo {
+    color: #002080;
+    font-size: 28px;
+    margin-bottom: 18px;
+    font-weight: bold;
+}
+
+.mapa-container {
+    width: 100%;
+    min-height: 420px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #d8d8d8;
+}
+
+.mapa-instrucoes {
+    margin-top: 12px;
+    color: #4a5c7f;
+    font-size: 15px;
+}
+
+.popup-mapa {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1b1b1b;
+}
+
+.popup-mapa strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #002080;
+}
+
 @media (max-width: 780px) {
     .popup-detalhes-layout {
         grid-template-columns: 1fr;
@@ -409,5 +452,33 @@ body {
 
     .popup-detalhes-imagem img {
         max-width: 180px;
+    }
+
+    .mapa-card {
+        padding: 18px;
+    }
+
+    .mapa-container {
+        min-height: 320px;
+    }
+}
+
+@media (max-width: 560px) {
+    .chamado-card,
+    .popup-card,
+    .mapa-card {
+        padding: 18px 16px;
+        border-radius: 18px;
+    }
+
+    .chamado-titulo,
+    .popup-titulo,
+    .mapa-titulo {
+        font-size: 22px;
+    }
+
+    .chamado-conteudo,
+    .popup-conteudo {
+        font-size: 16px;
     }
 }

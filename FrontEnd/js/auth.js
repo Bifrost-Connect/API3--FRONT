@@ -1,77 +1,150 @@
-// LOGIN COM REDIRECIONAMENTO POR PERFIL (ADMINISTRADOR VS TECNICO)
-window.btnindex = async function() {
-    const registrationInput = document.getElementById("matricula")?.value;
-    const passwordInput = document.getElementById("senha")?.value;
+/**
+ * ===================================================================
+ * ARQUIVO: auth.js
+ * REFERÊNCIA GLOBAL: Requer 'basic.js' (Utiliza apiFetch, mostrarToast e CONFIG)
+ * RESPONSABILIDADE: Gerenciar as operações de autenticação do usuário,
+ * capturar credenciais e tratar as interações de interface da tela de login.
+ * ===================================================================
+ */
 
-    if (!registrationInput || !passwordInput) {
-        mostrarToast("Por favor, preencha todos os campos.");
+window.btnindex = async function () {
+    const regField = document.getElementById("matricula");
+    const passField = document.getElementById("senha");
+
+    if (!regField?.value.trim() || !passField?.value) {
+        window.mostrarToast("Por favor, preencha todos os campos.");
         return;
     }
 
+    const loginData = {
+        registration: String(regField.value.trim()),
+        password: passField.value
+    };
+
     try {
-        const response = await fetch("http://localhost:8080/user/login", {
+        const response = await window.apiFetch("/user/login", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                registration: String(registrationInput),
-                password: passwordInput
-            })
+            body: JSON.stringify(loginData)
         });
 
-        if (response.ok) {
-            const user = await response.json();
-            const permission = user.permission ? user.permission.toUpperCase() : "";
+        if (response && response.ok) {
+            const data = await response.json();
 
-            localStorage.setItem("userName", user.name);
-            localStorage.setItem("userPermission", permission);
-
-            if (permission === "ADMINISTRATOR") {
-                window.location.href = "telainicial-gestor.html";
-            } else if (permission === "TECHNICIAN") {
-                window.location.href = "telainicial.html";
-            } else {
-                mostrarToast("Perfil de acesso não reconhecido: " + user.permission);
+            if (data.token) {
+                localStorage.setItem(CONFIG.TOKEN_KEY, data.token);
             }
-        } else {
-            mostrarToast("Matrícula ou senha incorretos.");
+
+            const payload = data.token ? CONFIG.decodeToken(data.token) : null;
+            const permission = String(payload?.permission || data.permission || "TECHNICIAN")
+                .toUpperCase()
+                .replace("ROLE_", "");
+
+            const name = payload?.name || data.name || "Usuário";
+
+            // Persiste os dados básicos para o basic.js poder decidir a barra
+            localStorage.setItem("userName", name);
+            localStorage.setItem("userPermission", permission);
+            localStorage.setItem("userRegistration", loginData.registration);
+
+            CONFIG.redirectByPermission();
+
+        } else if (response) {
+            const errorData = await response.json().catch(() => ({}));
+            const mensagem = errorData.error || errorData.message || "Matrícula ou senha incorretos.";
+            window.mostrarToast(mensagem);
         }
     } catch (error) {
-        console.error("Login error:", error);
-        mostrarToast("Erro ao conectar com o servidor.");
+        console.error("Erro crítico na tentativa de login:", error);
+        window.mostrarToast("Erro ao conectar com o servidor.");
     }
 };
 
-// LOGOUT
-window.btnlogout = () => {
-    localStorage.clear();
-    window.location.href = "index.html";
-};
-
-// VIZUALIZAR SENHA
-window.togglePassword = function() {
+window.togglePassword = function () {
     const passwordField = document.getElementById("senha");
     const eyeLine = document.getElementById("eyeLine");
-    if (passwordField.type === "password") {
-        passwordField.type = "text";
-        if(eyeLine) eyeLine.style.display = "block";
-    } else {
-        passwordField.type = "password";
-        if(eyeLine) eyeLine.style.display = "none";
+
+    if (passwordField) {
+        const isPasswordHidden = passwordField.type === "password";
+        passwordField.type = isPasswordHidden ? "text" : "password";
+
+        if (eyeLine) {
+            eyeLine.style.display = isPasswordHidden ? "block" : "none";
+        }
     }
 };
 
-//Função para mostrar o Toast
-function mostrarToast(mensagem) {
-    const toast = document.getElementById("toast-aviso");
-    if (toast) {
-        toast.innerText = mensagem;
-        toast.style.display = "block";
-        toast.classList.remove("toast-hidden");
+/**
+ * ===================================================================
+ * OPERAÇÕES DO MODAL DE RECUPERAÇÃO DE SENHA
+ * ===================================================================
+ */
 
-        // Esconde após 3 segundos
+window.abrirModalRecuperacao = function () {
+    const modal = document.getElementById("modalRecuperarSenha");
+    if (modal) {
+        modal.style.display = "flex";
         setTimeout(() => {
-            toast.classList.add("toast-hidden");
-            setTimeout(() => { toast.style.display = "none"; }, 500);
-        }, 3000);
+            document.getElementById("email-recuperacao")?.focus();
+        }, 100);
     }
-}
+};
+
+window.fecharModalRecuperacao = function () {
+    const modal = document.getElementById("modalRecuperarSenha");
+    if (modal) {
+        modal.style.display = "none";
+    }
+};
+
+window.enviarRecuperacaoSenha = function () {
+    const emailField = document.getElementById("email-recuperacao");
+    if (!emailField) return;
+
+    const email = emailField.value.trim();
+
+    if (email === "") {
+        window.mostrarToast("Digite um e-mail.");
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        window.mostrarToast("Insira um e-mail válido");
+        return;
+    }
+
+    window.fecharModalRecuperacao();
+    emailField.value = "";
+    window.mostrarToast("E-mail enviado com sucesso!", "toast-aviso1");
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const passField = document.getElementById("senha");
+    if (passField) {
+        passField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                window.btnindex();
+            }
+        });
+    }
+
+    const emailRecuperacaoField = document.getElementById("email-recuperacao");
+    if (emailRecuperacaoField) {
+        emailRecuperacaoField.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                window.enviarRecuperacaoSenha();
+            }
+        });
+    }
+
+    const modalRecuperarSenha = document.getElementById("modalRecuperarSenha");
+    if (modalRecuperarSenha) {
+        modalRecuperarSenha.addEventListener("click", (event) => {
+            if (event.target.id === "modalRecuperarSenha") {
+                window.fecharModalRecuperacao();
+            }
+        });
+    }
+});

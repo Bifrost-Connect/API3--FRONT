@@ -322,3 +322,33 @@ body.pagina-relatorios {
         width: 100%;
     }
 }
+
+@media (max-width: 640px) {
+    .relatorios-dashboard,
+    .relatorios-panel {
+        padding: 18px 16px;
+        border-radius: 18px;
+    }
+
+    .relatorios-dashboard-topo h1,
+    .relatorios-panel-topo h2 {
+        font-size: 22px;
+    }
+
+    .relatorios-kpis {
+        grid-template-columns: 1fr;
+    }
+
+    .relatorios-periodos {
+        flex-direction: column;
+    }
+
+    .periodo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .relatorios-table {
+        min-width: 680px;
+    }
+}
