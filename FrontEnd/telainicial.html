@@ -212,6 +212,29 @@
         </div>
     </div>
 
+    <div id="popupcancheckin" class="popup" style="display: none;">
+        <div class="popup-content">
+            <h2>Qual o motivo do cancelamento de Check-in?</h2>
+            <textarea id="cancelamentocheckin" placeholder="Digite aqui..." required></textarea>
+            <div class="popup-buttons">
+                <button id="btn-cancelar-confirmacao1" class="btn-voltar">Voltar</button>
+                <!-- Mudado ID para btn-confirmar-cancelamento -->
+                <button id="btn-confirmar-cancelamento" class="btn-aceitar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="popupSucessoCancelamento" class="popup" style="display: none;">
+        <div class="popup-content">
+            <h2>Sucesso!</h2>
+            <p>Cancelamento de Check-in realizado com sucesso.</p>
+            <div class="popup-buttons">
+                <!-- Mudado ID para btn-fechar-sucesso-cancelamento -->
+                <button id="btn-fechar-sucesso-cancelamento" class="btn-aceitar">OK</button>
+            </div>
+        </div>
+    </div>
+
     <div id="popupConfirmacao" class="popup" style="display: none;">
         <div class="popup-content">
             <h2>Confirmar?</h2>

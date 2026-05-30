@@ -56,9 +56,14 @@ section {
     margin-top: 0 !important;
 }
 
+body #topbar-container {
+    width: 100%;            /* Garante que o container ocupe a largura total */
+    align-self: flex-start; /* IMPEDE que o flexbox estique a altura dele para baixo */
+}
+
 body #topbar-container .top-bar {
-    position: relative; /* Mudado de fixed para relative/static */
-    margin: var(--topbar-offset) auto 20px auto; /* Centraliza a barra e define as margens baseadas nas variáveis */
+    position: relative; 
+    margin: var(--topbar-offset) auto 20px auto; 
     width: var(--layout-width);
     height: var(--topbar-height);
     display: flex;

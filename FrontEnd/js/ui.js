@@ -272,3 +272,104 @@ window.carregarDadosTelaInicial = function () {
         localStorage.removeItem("selectedVehicle");
     }
 };
+
+// Mudar km
+let valorKmOriginal = "";
+
+function alternarEdicaoKM(editando) {
+    const input = document.getElementById('quilometragem-inicial');
+    const btnEdit = document.getElementById('btn-edit-km');
+    const btnSave = document.getElementById('btn-save-km');
+    const btnCancel = document.getElementById('btn-cancel-km');
+
+    if (editando) {
+        // Salva o valor atual antes de começar a editar
+        valorKmOriginal = input.value;
+        
+        input.readOnly = false;
+        input.focus();
+        btnEdit.style.display = 'none';
+        btnSave.style.display = 'flex';
+        btnCancel.style.display = 'flex';
+    } else {
+        // Cancela: volta o valor original e tranca o campo
+        input.value = valorKmOriginal;
+        input.readOnly = true;
+        btnEdit.style.display = 'flex';
+        btnSave.style.display = 'none';
+        btnCancel.style.display = 'none';
+    }
+}
+
+function salvarEdicaoKM() {
+    const input = document.getElementById('quilometragem-inicial');
+    const btnEdit = document.getElementById('btn-edit-km');
+    const btnSave = document.getElementById('btn-save-km');
+    const btnCancel = document.getElementById('btn-cancel-km');
+
+    // Aqui você pode adicionar validações (se é número, etc)
+    if (input.value.trim() === "") {
+        alert("Por favor, digite um valor.");
+        return;
+    }
+
+    // Tranca o campo e volta ao estado inicial de botões
+    input.readOnly = true;
+    btnEdit.style.display = 'flex';
+    btnSave.style.display = 'none';
+    btnCancel.style.display = 'none';
+    
+    console.log("Nova KM salva:", input.value);
+}
+
+// cancelar check-in
+document.addEventListener("DOMContentLoaded", function () {
+    // Referências dos elementos do DOM
+    const btnCancelar2 = document.getElementById("btn-cancelar-veiculo2");
+    
+    const popupCanCheckin = document.getElementById("popupcancheckin");
+    const btnVoltarCancelamento = document.getElementById("btn-cancelar-confirmacao1");
+    const btnConfirmarCancelamento = document.getElementById("btn-confirmar-cancelamento");
+    
+    const popupSucessoCancelamento = document.getElementById("popupSucessoCancelamento");
+    const btnFecharSucessoCancelamento = document.getElementById("btn-fechar-sucesso-cancelamento");
+
+    if (btnCancelar2) {
+        btnCancelar2.addEventListener("click", function () {
+            popupCanCheckin.style.display = "flex";
+        });
+    }
+
+    if (btnVoltarCancelamento) {
+        btnVoltarCancelamento.addEventListener("click", function () {
+            popupCanCheckin.style.display = "none";
+            document.getElementById("cancelamentocheckin").value = ""; 
+        });
+    }
+
+    if (btnConfirmarCancelamento) {
+        btnConfirmarCancelamento.addEventListener("click", function () {
+            const motivo = document.getElementById("cancelamentocheckin").value.trim();
+            
+            if (motivo === "") {
+                mostrarToast("Por favor, digite o motivo do cancelamento.");
+                return;
+            }
+
+            document.getElementById("cancelamentocheckin").value = ""; 
+
+            popupCanCheckin.style.display = "none";
+            popupSucessoCancelamento.style.display = "flex";
+        });
+    }
+
+    if (btnFecharSucessoCancelamento) {
+        btnFecharSucessoCancelamento.addEventListener("click", function () {
+            popupSucessoCancelamento.style.display = "none";
+            
+            if (typeof window.cancelarVeiculoInfo === "function") {
+                window.cancelarVeiculoInfo();
+            }
+        });
+    }
+});
