@@ -248,7 +248,7 @@ window.transicaoPosCheckin = function () {
         if (el) el.style.display = 'none';
     });
 
-    const IDsMostrar = ['grupo-km-final', 'btn-abs-veiculo', 'btn-checkout'];
+    const IDsMostrar = ['grupo-km-final', 'btn-abs-veiculo', 'btn-checkout', 'btn-cancelar-veiculo2'];
     IDsMostrar.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = 'inline-block';

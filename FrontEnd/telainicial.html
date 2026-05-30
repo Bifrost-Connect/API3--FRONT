@@ -67,8 +67,7 @@
                     <button id="btn-cancelar-veiculo2" style="display: none;">Cancelar</button>
                     <button id="btn-abs-veiculo" onclick="abrirPopupAbastecimento()"
                         style="display: none;">Abastecimento</button>
-                    <button id="btn-checkout" onclick="checkoutChamado()" style="display: none;">Fazer
-                        check-out</button>
+                    <button id="btn-checkout" onclick="checkoutChamado()" style="display: none;">Fazer Check-out</button>
                 </div>
             </div>
         </div>
@@ -163,47 +162,55 @@
         <div class="popup-content">
             <h2>Detalhes do Abastecimento</h2>
 
-            <div style="display: flex; gap: 10px;">
+            <div class="popup-linha-dupla">
                 <p>
                     <label for="litros-abastecimento"><strong>Quantidade de Litros:</strong></label>
                     <input type="number" step="0.01" id="litros-abastecimento" placeholder="Ex: 50.00" required>
                 </p>
-
                 <p>
                     <label for="preco-litro"><strong>Preço por Litro (R$):</strong></label>
                     <input type="number" step="0.001" id="preco-litro" placeholder="Ex: 5.89" required>
                 </p>
             </div>
 
-            <p>
-                <label for="km-veiculo"><strong>KM do Veículo:</strong></label>
-                <input type="number" id="km-veiculo" placeholder="Ex: 125000" required>
-            </p>
+            <div class="popup-linha-dupla">
+                <p>
+                    <label for="km-veiculo"><strong>KM do Veículo:</strong></label>
+                    <input type="number" id="km-veiculo" placeholder="Ex: 125000" required>
+                </p>
+                <p>
+                    <label for="nf-abastecimento"><strong>Nº da Nota Fiscal:</strong></label>
+                    <input type="text" id="nf-abastecimento" placeholder="Digite a nota" required>
+                </p>
+            </div>
 
-            <p>
-                <label for="nf-abastecimento"><strong>Nº da Nota Fiscal:</strong></label>
-                <input type="text" id="nf-abastecimento" placeholder="Digite o número da nota" required>
-            </p>
-
-            <div style="display: flex; gap: 10px;">
-                <p style="flex: 1;">
-                    <label for="data-abastecimento"><strong>Data:</strong></label>
+            <div class="popup-linha-dupla">
+                <p>
+                    <label for="data-abastecimento"><strong>Data Abastecimento:</strong></label>
                     <input type="date" id="data-abastecimento" required>
                 </p>
-                <p style="flex: 1;">
+                <p>
                     <label for="hora-abastecimento"><strong>Horário:</strong></label>
                     <input type="time" id="hora-abastecimento" required>
                 </p>
             </div>
 
-            <p>
-                <label for="troca-oleo"><strong>Houve troca de óleo?</strong></label>
-                <select id="troca-oleo" class="popup-content input" required>
-                    <option value="">Selecione...</option>
-                    <option value="sim">Sim</option>
-                    <option value="nao">Não</option>
-                </select>
-            </p>
+            <div class="popup-secao-oleo">
+                <p>
+                    <label for="data-troca-oleo"><strong>Data da Troca de Óleo:</strong></label>
+                    <input type="date" id="data-troca-oleo">
+                </p>
+                <div class="popup-linha-dupla">
+                    <p>
+                        <label for="km-troca-oleo"><strong>Última Troca KM:</strong></label>
+                        <input type="number" id="km-troca-oleo" placeholder="Ex: 120000">
+                    </p>
+                    <p>
+                        <label for="proximo-km-oleo"><strong>Próxima Troca KM:</strong></label>
+                        <input type="number" id="proximo-km-oleo" placeholder="Ex: 130000">
+                    </p>
+                </div>
+            </div>
 
             <div class="popup-buttons">
                 <button id="btn-voltar" class="btn-voltar">Voltar</button>

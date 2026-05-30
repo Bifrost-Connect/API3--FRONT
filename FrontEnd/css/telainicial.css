@@ -211,8 +211,25 @@ body {
     font-size: 18px;
 }
 
+#grupo-final input {
+    display: block;
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 .campos-adicionais input,
 .campos-adicionais textarea {
+    width: 100%;
+    padding: 13px 14px;
+    margin-bottom: 12px;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 17px;
+}
+
+#popupcancheckin textarea {
     width: 100%;
     padding: 13px 14px;
     margin-bottom: 12px;
@@ -235,6 +252,7 @@ body {
 
 #btn-salvar-veiculo,
 #btn-cancelar-veiculo,
+#btn-cancelar-veiculo2,
 #btn-checkout,
 #btn-abs-veiculo,
 #check-in-veiculo {
@@ -251,6 +269,7 @@ body {
 
 #btn-salvar-veiculo:hover,
 #btn-cancelar-veiculo:hover,
+#btn-cancelar-veiculo2:hover,
 #btn-checkout:hover,
 #btn-abs-veiculo:hover,
 #check-in-veiculo:hover {
@@ -268,6 +287,7 @@ body {
     z-index: 1000;
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
+    z-index: 9999 !important;
 }
 
 .popup-card,
@@ -277,6 +297,7 @@ body {
     padding: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     width: min(90%, 560px);
+    z-index: 10000 !important;
 }
 
 .popup-titulo,
@@ -524,15 +545,198 @@ body {
     background: #f9f9f9;
 }
 
-#abastecimentop {
-    background-color: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    width: min(90%, 560px);
-    max-height: 85vh;
-    overflow-y: auto;
-    position: relative;
+#popupAbastecimento.popup {
+    display: none; /* Controlado pelo seu JS */
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    padding: 16px; /* Evita que o card cole na borda em telas muito pequenas */
+}
+
+/* 2. O CARD DO POP-UP (Ajustado para não esticar no PC) */
+#abastecimentop,
+#popupAbastecimento .popup-content {
+    background-color: white !important;
+    border-radius: 16px !important;
+    padding: 28px 24px !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25) !important;
+    
+    /* Aqui está o segredo: define o tamanho ideal para PC/Tablet e impede de passar disso */
+    width: 100% !important;
+    max-width: 500px !important; 
+    
+    /* impede que quebre a tela caso o monitor seja muito baixo */
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    
+    /* Garante o alinhamento interno */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* 3. TÍTULO E TEXTOS */
+#abastecimentop h2,
+#popupAbastecimento .popup-content h2 {
+    color: #12308f;
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#abastecimentop p,
+#popupAbastecimento .popup-content p {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#abastecimentop label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#abastecimentop input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #d7d7d7;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+/* 4. ALINHAMENTO LADO A LADO (PC, TABLET E IPAD) */
+.popup-linha-dupla {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+}
+
+/* SEÇÃO DA TROCA DE ÓLEO */
+.popup-secao-oleo {
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 2px dashed #e2e8f0;
+}
+
+/* Barra de rolagem interna discreta caso precise */
+#abastecimentop::-webkit-scrollbar {
+    width: 6px;
+}
+#abastecimentop::-webkit-scrollbar-thumb {
+    background: #12308f;
+    border-radius: 10px;
+}
+
+/* 5. RESPONSIVIDADE EM CELULARES (Telas até 480px) */
+@media (max-width: 480px) {
+    #abastecimentop,
+    #popupAbastecimento .popup-content {
+        padding: 20px 16px !important;
+        max-height: 95vh !important; /* Aproveita melhor telas pequenas */
+    }
+    
+    #abastecimentop h2 {
+        font-size: 19px;
+    }
+
+    /* Transforma as duas colunas em uma coluna única no celular */
+    .popup-linha-dupla {
+        grid-template-columns: 1fr !important;
+        gap: 0px !important; /* O margin-bottom do <p> já cuida do espaço */
+    }
+}
+
+/* CLASSES AUXILIARES PARA ALINHAMENTO LADO A LADO */
+.popup-linha-dupla {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+/* DIVISOR ESTILIZADO PARA A SEÇÃO DE TROCA DE ÓLEO */
+.popup-secao-oleo {
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 2px dashed #e2e8f0;
+}
+
+/* Customização fina da barra de rolagem interna do pop-up */
+#abastecimentop::-webkit-scrollbar {
+    width: 6px;
+}
+#abastecimentop::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+#abastecimentop::-webkit-scrollbar-thumb {
+    background: #12308f;
+    border-radius: 10px;
+}
+
+/* RESPONSIVIDADE EXCLUSIVA PARA CELULARES */
+@media (max-width: 480px) {
+    #abastecimentop {
+        padding: 16px;
+    }
+    
+    #abastecimentop h2 {
+        font-size: 19px;
+    }
+
+    /* Em telas muito estreitas de celular, transforma os elementos duplos em uma coluna única */
+    .popup-linha-dupla {
+        grid-template-columns: 1fr !important;
+        gap: 0px;
+    }
+}
+
+#abastecimentop div[style*="display: flex"] {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr; /* Força divisão exata em duas colunas */
+    gap: 16px !important;
+}
+
+#abastecimentop p {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column; /* Garante que a label fique acima do input correspondente */
+}
+
+#abastecimentop label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#abastecimentop h2 {
+    color: #12308f;
+    font-size: 22px; /* Diminuído para não estourar em telas de celulares */
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#abastecimentop select {
+    width: 100%;
+    margin-top: 5px;
+    padding: 12px;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    font-size: 16px;
 }
 
 #abastecimentop::-webkit-scrollbar {
@@ -562,9 +766,9 @@ body {
     color: white;
     padding: 12px 25px;
     border-radius: 8px;
-    z-index: 3000;
+    z-index: 100000 !important;
     font-weight: bold;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: opacity 0.3s, top 0.3s;
 }
 
@@ -582,9 +786,9 @@ body {
     color: white;
     padding: 12px 25px;
     border-radius: 8px;
-    z-index: 3000;
+    z-index: 100000 !important;
     font-weight: bold;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: opacity 0.3s, top 0.3s;
 }
 
@@ -645,8 +849,9 @@ input[readonly] {
 /* Responsividade para Mobile */
 @media (max-width: 480px) {
     .container-pesquisa {
-        flex-direction: column;
+        flex-direction: row;
     }
+
 }
 
 @media (max-width: 980px) {
@@ -683,14 +888,17 @@ input[readonly] {
 .lista-veiculos::-webkit-scrollbar {
     width: 6px;
 }
+
 .lista-veiculos::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 4px;
 }
+
 .lista-veiculos::-webkit-scrollbar-thumb {
     background: #ccc;
     border-radius: 4px;
 }
+
 .lista-veiculos::-webkit-scrollbar-thumb:hover {
     background: #999;
 }

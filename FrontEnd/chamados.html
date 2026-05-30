@@ -33,55 +33,71 @@
     </div>
 
     <div id="modalConfirmacao" class="sobreposicao">
-      <div class="popup-card">
-        <h2 class="popup-titulo">Veículos Disponíveis</h2>
+        <div class="popup-card">
+            <h2 class="popup-titulo">Veículos Disponíveis</h2>
 
-        <div class="popup-conteudo">
-          <p>
-            <strong>Selecione um veículo para visualizar informações:</strong>
-          </p>
+            <div class="container-pesquisa">
+                <input type="text" id="inputPesquisa" placeholder="Pesquisar por nome ou placa..."
+                    onkeyup="filtrarVeiculos()">
+                <button class="btn-filtro-abrir" onclick="abrirModalFiltro()" title="Filtros Avançados">
+                    <img src="https://cdn-icons-png.flaticon.com/512/57/57164.png" alt="Filtro">
+                </button>
+            </div>
+
+            <div id="listaVeiculos" class="lista-veiculos"></div>
         </div>
+    </div>
 
-        <div id="listaVeiculos" class="lista-veiculos"></div>
-      </div>
+    <div id="modalFiltroAvancado" class="sobreposicao">
+        <div class="popup-card popup-filtro-menor">
+            <h2 class="popup-titulo">Filtros</h2>
+
+            <div class="grupo-filtro">
+                <label for="filtroTipo">Tipo de Veículo</label>
+                <select id="filtroTipo">
+                    <option value="TODOS">Todos os tipos</option>
+                    <option value="PASSEIO">Passeio</option>
+                    <option value="UTILITÁRIO">Utilitário</option>
+                </select>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn-voltar" onclick="fecharModalFiltro()">Cancelar</button>
+                <button class="btn-aceitar" onclick="aplicarFiltros()">Aplicar Filtros</button>
+            </div>
+        </div>
     </div>
 
     <div id="modalDetalhesVeiculo" class="sobreposicao">
-      <div class="popup-card">
-        <h2 class="popup-titulo" id="tituloVeiculo">Detalhes do Veículo</h2>
+        <div class="popup-card">
+            <div class="popup-detalhes-layout">
+                <div class="popup-detalhes-info">
+                    <h2 class="popup-titulo" id="tituloVeiculo">Detalhes do Veículo</h2>
 
-        <div
-          class="popup-detalhes-layout"
-          style="display: flex; gap: 20px; align-items: center"
-        >
-          <div class="popup-detalhes-imagem">
-            <img
-              id="fotoVeiculo"
-              src=""
-              alt="Foto do Veículo"
-              style="max-width: 150px; border-radius: 8px"
-            />
-          </div>
-          <div class="popup-conteudo" id="conteudoVeiculo">
-            <p><strong>Modelo:</strong> <span id="modeloVeiculo"></span></p>
-            <p><strong>Marca:</strong> <span id="marcaVeiculo"></span></p>
-            <p><strong>Placa:</strong> <span id="placaVeiculo"></span></p>
-            <p><strong>Prefixo:</strong> <span id="prefixoVeiculo"></span></p>
-          </div>
-        </div>
+                    <div class="popup-conteudo" id="conteudoVeiculo">
+                        <p><strong>Modelo:</strong> <span id="modeloVeiculo"></span></p>
+                        <p><strong>Marca:</strong> <span id="marcaVeiculo"></span></p>
+                        <p><strong>Tipo de Veículo:</strong> <span id="tipoVeiculo"></span></p>
+                        <p><strong>Prefixo da Viatura:</strong> <span id="prefixoVeiculo"></span></p>
+                        <p><strong>Placa:</strong> <span id="placaVeiculo"></span></p>
+                        <p><strong>Último Serviço:</strong> <span id="ultimoServico"></span></p>
+                        <p><strong>Quilometragem:</strong> <span id="quilometragem"></span></p>
+                    </div>
 
-        <div
-          class="btn-container"
-          style="margin-top: 25px; display: flex; gap: 10px"
-        >
-          <button class="btn-voltar" onclick="voltarParaVeiculos()">
-            Voltar
-          </button>
-          <button class="btn-aceitar" onclick="confirmarVeiculo()">
-            Confirmar Check-in
-          </button>
+                    <div class="btn-container">
+                        <button class="btn-voltar" onclick="voltarParaVeiculos()">
+                            ← Voltar
+                        </button>
+                        <button class="btn-aceitar" onclick="confirmarVeiculo()">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+                <div class="popup-detalhes-imagem">
+                    <img src="img/carro 1.jpg" alt="Imagem do veículo">
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div id="toast-aviso" class="toast-hidden">Preencha todos os campos!</div>
