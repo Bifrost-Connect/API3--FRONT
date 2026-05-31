@@ -42,6 +42,7 @@ const tecnicosSample = [
 ];
 
 let tecnicosAtuais = [...tecnicosSample];
+let tecnicosFiltrados = [...tecnicosAtuais];
 let tecnicoEditandoId = null;
 
 //Back -> Front
@@ -86,7 +87,9 @@ function renderizarTecnicos(lista) {
                 <td>${tecnico.setor}</td>
                 <td>${tecnico.perfil}</td>
                 <td><span class="status-badge status-${tecnico.status}">${tecnico.status}</span></td>
-                <td><button class="btn-tecnico-editar" type="button" onclick="abrirEditarTecnico('${tecnico.id}')">Editar</button></td>
+                <td>
+                    <button class="btn-tecnico-editar" type="button" onclick="abrirEditarTecnico('${tecnico.id}')">Editar</button>
+                </td>
             </tr>
         `;
     }).join("");
@@ -104,13 +107,15 @@ function aplicarFiltroTecnicos() {
             tecnico.status
         ].some(valor => (valor || "").toLowerCase().includes(termo));
     });
-    renderizarTecnicos(filtrados);
+    tecnicosFiltrados = filtrados;
+    renderizarTecnicos(tecnicosFiltrados);
 }
 
 function limparFiltroTecnicos() {
     const campo = document.getElementById("filtroBuscaTecnico");
     if (campo) campo.value = "";
-    renderizarTecnicos(tecnicosAtuais);
+    tecnicosFiltrados = [...tecnicosAtuais];
+    renderizarTecnicos(tecnicosFiltrados);
 }
 
 function abrirEditarTecnico(id) {
@@ -149,31 +154,24 @@ function salvarAlteracoesTecnico() {
         return;
     }
 
-    //Update no back
-    fetch(`http://localhost:8080/user/${tecnicoEditandoId}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            name: nome,
-            email: email,
-            registration: matricula,
-            phone: telefone,
-            employeeStatus: traduzirStatusParaBackend(status)
-        })
-    })
-    .then(res => {
-        if (!res.ok) throw new Error();
-        return res.json();
-    })
-    .then(() => {
-        carregarTecnicosBackend();
-        fecharPopupEditarTecnico();
-    })
-    .catch(() => {
-        mostrarToast("Erro ao atualizar técnico");
-    });
+    const tecnico = tecnicosAtuais.find(item => item.id == tecnicoEditandoId);
+    if (!tecnico) {
+        mostrarToast("Técnico não encontrado.");
+        return;
+    }
+
+    tecnico.name = nome;
+    tecnico.email = email;
+    tecnico.registration = matricula;
+    tecnico.phone = telefone;
+    tecnico.setor = setor;
+    tecnico.perfil = perfil;
+    tecnico.status = status;
+
+    renderizarTecnicos(tecnicosAtuais);
+    fecharPopupEditarTecnico();
+    mostrarToast1("Técnico atualizado com sucesso.");
+    tecnicoEditandoId = null;
 }
 
 //Get no back
@@ -193,7 +191,8 @@ function carregarTecnicosBackend() {
                 status: traduzirStatus(user.employeeStatus)
             }));
 
-            renderizarTecnicos(tecnicosAtuais);
+            tecnicosFiltrados = [...tecnicosAtuais];
+            renderizarTecnicos(tecnicosFiltrados);
         })
         .catch(() => {
             renderizarTecnicos(tecnicosAtuais);
@@ -215,6 +214,20 @@ function mostrarToast(mensagem) {
         // Esconde após 3 segundos
         setTimeout(() => {
             toast.classList.add("toast-hidden");
+            setTimeout(() => { toast.style.display = "none"; }, 500);
+        }, 3000);
+    }
+}
+
+function mostrarToast1(mensagem) {
+    const toast = document.getElementById("toast-aviso1");
+    if (toast) {
+        toast.innerText = mensagem;
+        toast.style.display = "block";
+        toast.classList.remove("toast-hidden1");
+
+        setTimeout(() => {
+            toast.classList.add("toast-hidden1");
             setTimeout(() => { toast.style.display = "none"; }, 500);
         }, 3000);
     }

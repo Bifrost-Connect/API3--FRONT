@@ -196,11 +196,10 @@ body {
 .chamado-card {
     background-color: white;
     border-radius: 15px;
-    padding: 70px;
+    padding: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    max-width: 800px;
-    width: 90%;
-    margin-top: 20px;
+    flex: 1;
+    min-width: 0;
     animation: slideIn 0.3s ease-out;
 }
 
@@ -402,14 +401,22 @@ body {
     opacity: 0;
 }
 
+.chamados-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1180px;
+    width: 90%;
+    margin: 20px auto;
+    align-items: flex-start;
+}
+
 .mapa-card {
     background-color: white;
     border-radius: 15px;
     padding: 25px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
-    max-width: 1180px;
-    width: 90%;
-    margin: 20px auto;
+    flex: 1;
+    min-width: 0;
 }
 
 .mapa-titulo {
@@ -421,7 +428,7 @@ body {
 
 .mapa-container {
     width: 100%;
-    min-height: 420px;
+    height: 500px;
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid #d8d8d8;
@@ -445,6 +452,16 @@ body {
     color: #002080;
 }
 
+@media (max-width: 1024px) {
+    .chamados-container {
+        flex-direction: column;
+    }
+
+    .mapa-container {
+        height: 400px;
+    }
+}
+
 @media (max-width: 780px) {
     .popup-detalhes-layout {
         grid-template-columns: 1fr;
@@ -459,7 +476,7 @@ body {
     }
 
     .mapa-container {
-        min-height: 320px;
+        height: 300px;
     }
 }
 

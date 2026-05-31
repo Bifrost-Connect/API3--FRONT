@@ -127,11 +127,56 @@ body.pagina-relatorios {
 .btn-gerar {
     padding: 14px 22px;
     border: none;
-    border-radius: 14px;
+    border-radius: 50px;
     background-color: #002080;
     color: #ffffff;
     font-weight: 700;
     cursor: pointer;
+}
+
+.relatorios-panel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 18px;
+}
+
+#btn-escolher-datas,
+.btn-datas {
+    border-radius: 50px;
+    border: 1px solid rgba(27, 75, 215, 0.22);
+    background: #eef3ff;
+    color: #1b4bd7;
+    padding: 14px 22px;
+    cursor: pointer;
+}
+
+.relatorios-periodo-info {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 18px;
+    background: #f5f7ff;
+    color: #22335c;
+    font-weight: 600;
+}
+
+.categoria-btn {
+    border: 1px solid rgba(27, 75, 215, 0.18);
+    border-radius: 16px;
+    padding: 14px 18px;
+    background: #fff;
+    color: #1b4bd7;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.categoria-btn.active,
+.categoria-btn:hover {
+    background: #e5edff;
+    transform: translateY(-1px);
 }
 
 .relatorios-periodos {

@@ -68,7 +68,7 @@ window.abrirModalConfirmacao = () => {
 };
 
 window.fecharTodosModais = () => {
-    ["modalConfirmacao", "modalDetalhesVeiculo", "popupAbastecimento", "modalAvisoCheckout"].forEach(id => {
+    ["modalConfirmacao", "modalDetalhesVeiculo", "popupAbastecimento", "modalAvisoCheckout", "popupChamadoDetalhes"].forEach(id => {
         const element = document.getElementById(id);
         if (element) element.style.display = "none";
     });

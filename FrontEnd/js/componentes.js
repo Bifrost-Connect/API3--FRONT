@@ -51,6 +51,7 @@ function renderizarSidebarGestor() {
             <a href="tela-mapa-gestor.html">GERENCIAR CHAMADOS</a>
             <a href="relatorios.html">RELATORIOS</a>
             <a href="tecnicos-gestor.html">TECNICOS</a>
+            <a href="veiculos-gestor.html">VEÍCULOS</a>
 
             <div class="sidebar-submenu-container">
                 <button id="btn-cadastro" class="sidebar-item-expandavel" type="button" aria-expanded="false">
@@ -172,4 +173,23 @@ function inicializarComponentes() {
     marcarLinkAtivo(sidebar);
 }
 
-document.addEventListener("DOMContentLoaded", inicializarComponentes);
+function inicializarFechamentoPopupClickFora() {
+    document.addEventListener("click", (event) => {
+        const popupOverlay = event.target.closest(".popup, .sobreposicao");
+        if (!popupOverlay) {
+            return;
+        }
+
+        const isInsideContent = event.target.closest(".popup-card, .popup-content");
+        if (isInsideContent) {
+            return;
+        }
+
+        popupOverlay.style.display = "none";
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    inicializarComponentes();
+    inicializarFechamentoPopupClickFora();
+});

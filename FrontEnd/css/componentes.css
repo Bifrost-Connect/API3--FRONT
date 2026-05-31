@@ -360,6 +360,35 @@ body #sidebar-container .sidebar::-webkit-scrollbar-thumb {
     }
 }
 
+.popup-export-opcoes .popup-card,
+.popup-relatorio-datas .popup-card {
+    width: min(540px, 92%);
+    max-width: 540px;
+}
+
+.popup-export-opcoes .export-formatos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+}
+
+.btn-export-format {
+    border: 1px solid rgba(0, 32, 128, 0.18);
+    border-radius: 16px;
+    padding: 16px 14px;
+    background-color: #eef3ff;
+    color: #002080;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-export-format:hover {
+    background-color: #dbe4ff;
+    transform: translateY(-1px);
+}
+
 @media (max-width: 560px) {
     .popup-card,
     .popup-content,
