@@ -249,6 +249,32 @@
     <!-- BLUR DA SIDEBAR -->
     <div id="sidebar-container"></div>
 
+    <button id="btn-informacoes-uteis" class="btn-flutuante" type="button" onclick="abrirPopupContatos()" aria-label="Contatos úteis">📞</button>
+
+    <div id="popupContatos" class="popup">
+        <div class="popup-content">
+            <button class="popup-close" type="button" onclick="fecharPopupContatos()">×</button>
+            <h2>Contatos úteis</h2>
+            <div class="popup-conteudo">
+                <p><strong>Guia de Rodas (Guincho e Socorro)</strong><br>
+                    Número: (31) 3309-1575<br>
+                    Central da Loc Minas (Locadora dona do veículo)
+                </p>
+                <p><strong>Controle de Frota Estadual (Aviso Oficial)</strong><br>
+                    Número: (11) 3581-2300 ou (11) 3581-2000<br>
+                    Sede Central do Ipem-SP (Setor de Transportes)
+                </p>
+                <p><strong>Base Regional (Apoio Operacional Local)</strong><br>
+                    Número: Conexão interna via PABX / Celular corporativo institucional<br>
+                    Chefia da Delegacia do Ipem em SJC
+                </p>
+            </div>
+            <div class="popup-buttons">
+                <button class="btn-aceitar" onclick="fecharPopupContatos()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast-aviso" class="toast-hidden">Preencha todos os campos!</div>
     <div id="toast-aviso1" class="toast-hidden1">Preencha todos os campos!</div>
 
@@ -265,6 +291,16 @@
         document.getElementById("topbar-container").insertAdjacentHTML("beforeend", renderizarTopBar("Tela Inicial"));
         document.getElementById("sidebar-container").insertAdjacentHTML("beforeend", renderizarSidebarTecnico());
         inicializarComponentes();
+
+        function abrirPopupContatos() {
+            const popup = document.getElementById("popupContatos");
+            if (popup) popup.style.display = "flex";
+        }
+
+        function fecharPopupContatos() {
+            const popup = document.getElementById("popupContatos");
+            if (popup) popup.style.display = "none";
+        }
     </script>
 </body>
 
