@@ -20,25 +20,25 @@ let selectedReportIndex = 0;
 
 /**
  * Função: carregarRelatoriosDaAPI
- * O que faz: Busca os relatórios dos últimos meses na API. Corrige o mapeamento
- * lendo a propriedade "reports" retornada pelo Map.of() no Spring Boot.
- * Requisição: GET /dashboard/reports
+ * O que faz: Busca os relatórios na API.
+ * Requisição: GET /dashboard/reports?months=5 (Garante 5 meses de histórico)
  */
 async function carregarRelatoriosDaAPI() {
     const tbody = document.querySelector(".relatorios-table tbody");
     if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 20px;">Carregando relatórios...</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 20px;">Carregando relatórios...</td></tr>`;
     }
 
     try {
-        // Usa o wrapper global do basic.js batendo na rota correta do Controller
-        const response = await window.apiFetch("/dashboard/reports", { method: "GET" });
+        // SOLUÇÃO: Adicionado ?months=12 para forçar o back-end a mandar todos os meses
+        const response = await window.apiFetch("/dashboard/reports?months=5", { method: "GET" });
         if (!response) return; // basic.js intercepta se token estiver inválido
 
         if (response.ok) {
             const data = await response.json();
-            // O backend (DashboardController) retorna { "reports": [...] }
-            relatoriosDoBanco = data.reports || [];
+            // O backend retorna os meses do mais antigo para o mais novo.
+            // O .reverse() inverte o array para exibir o mês atual (mais recente) primeiro.
+            relatoriosDoBanco = (data.reports || []).reverse();
             inicializarRelatorios();
         } else {
             console.error("Erro ao buscar relatórios. Status:", response.status);
@@ -65,7 +65,9 @@ function inicializarRelatorios() {
     }
 
     renderizarMeses();
-    window.selecionarRelatorio(0); // Força a exibição do primeiro mês da lista
+
+    // Força a exibição do primeiro mês da lista (que, por causa do reverse(), é o MÊS ATUAL)
+    window.selecionarRelatorio(0);
 }
 
 /**
@@ -105,14 +107,14 @@ window.selecionarRelatorio = function (index) {
     const report = relatoriosDoBanco[selectedReportIndex];
     if (!report) return;
 
-    mostrarStatus(report.status);
+    mostrarStatus(report); // Passa o objeto inteiro para tratar o texto menor também
     atualizarResumo(report.totalCalls, report.completedCalls, report.openCalls);
     atualizarTabela(report.entries);
 
     // Altera a label do botão de exportação se o mês ainda não fechou
     const btnExport = document.querySelector(".btn-gerar");
     if (btnExport) {
-        btnExport.textContent = report.isCurrentMonth ? "Gerar relatório parcial" : "Exportar CSV";
+        btnExport.textContent = report.isCurrentMonth ? "Gerar relatório parcial" : "Exportar relatório fechado";
     }
 };
 
@@ -121,9 +123,18 @@ window.selecionarRelatorio = function (index) {
  * O que fazem: Injetam os dados contidos no relatório selecionado dentro
  * de seções específicas da tela (KPIs e Tabela de Registros).
  */
-function mostrarStatus(text) {
-    const statusElement = document.querySelector(".relatorios-kpis article:nth-child(1) strong");
-    if (statusElement) statusElement.textContent = text || "-";
+function mostrarStatus(report) {
+    // Atualiza o texto principal (Strong)
+    const statusStrong = document.querySelector(".relatorios-kpis article:nth-child(1) strong");
+    if (statusStrong) statusStrong.textContent = report.status || "-";
+
+    // Atualiza o texto menor explicativo (Small)
+    const statusSmall = document.querySelector(".relatorios-kpis article:nth-child(1) small");
+    if (statusSmall) {
+        statusSmall.textContent = report.isCurrentMonth
+            ? "Relatório parcial disponível para exportação."
+            : "Mês finalizado. Relatório completo disponível.";
+    }
 }
 
 function atualizarResumo(total, completed, open) {
@@ -139,7 +150,7 @@ function atualizarTabela(entries) {
     const tbody = document.querySelector(".relatorios-table tbody");
     if (!tbody) return;
 
-    tbody.innerHTML = ""; // Limpa a tabela
+    tbody.innerHTML = "";
 
     if (!entries || entries.length === 0) {
         mostrarErroNaTabela("Nenhum chamado registrado neste mês.");
@@ -154,7 +165,7 @@ function atualizarTabela(entries) {
         else if (entry.status === "Em andamento") statusClass = "status-andamento"; // Azul
 
         row.innerHTML = `
-            <td>${entry.id}</td>
+            <td>#${entry.id}</td>
             <td>${entry.carPrefix || "-"}</td>
             <td>${entry.userName || entry.userRegistration || "-"}</td>
             <td>${entry.description || "-"}</td>
@@ -169,7 +180,7 @@ function atualizarTabela(entries) {
 function mostrarErroNaTabela(mensagem) {
     const tbody = document.querySelector(".relatorios-table tbody");
     if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#67717b; padding:28px 0;">${mensagem}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#67717b; padding:28px 0;">${mensagem}</td></tr>`;
     }
 }
 
@@ -179,9 +190,6 @@ function mostrarErroNaTabela(mensagem) {
 
 /**
  * Função: gerardownload (Global)
- * O que faz: Extrai os parâmetros do mês selecionado e aciona a função
- * global baixarArquivo() (do basic.js) para se comunicar com o backend
- * e iniciar o download do arquivo.
  */
 window.gerardownload = async function () {
     if (!relatoriosDoBanco || relatoriosDoBanco.length === 0) {
@@ -191,7 +199,6 @@ window.gerardownload = async function () {
 
     const report = relatoriosDoBanco[selectedReportIndex];
 
-    // Parâmetros de consulta (Query Params) para repassar à API de exportação
     const parametros = {
         mes: report.monthLabel,
         ano: report.year
@@ -201,7 +208,6 @@ window.gerardownload = async function () {
 
     try {
         window.mostrarToast("Iniciando exportação...", "toast-aviso1");
-        // Delegado para a função padronizada de exportação (ExportController)
         await window.baixarArquivo("csv", "reports", parametros, nomeArquivo);
     } catch (error) {
         console.error("Erro durante a exportação:", error);
@@ -209,7 +215,6 @@ window.gerardownload = async function () {
     }
 };
 
-// Cria um alias para garantir compatibilidade caso algum botão use o nome antigo
 window.exportCsvForSelectedMonth = window.gerardownload;
 
 // ===================================================================
@@ -217,10 +222,8 @@ window.exportCsvForSelectedMonth = window.gerardownload;
 // ===================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Compatibilidade com possíveis scripts de layout global
     if (typeof carregarDadosTelaInicial === "function") carregarDadosTelaInicial();
 
-    // Valida se a página atual é a de relatórios antes de disparar o fetch
     if (document.getElementById("months-list") || document.querySelector(".relatorios-table")) {
         carregarRelatoriosDaAPI();
     }

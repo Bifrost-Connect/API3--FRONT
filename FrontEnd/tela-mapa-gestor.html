@@ -40,13 +40,15 @@
                             </button>
                         </div>
                         <p id="resumoLocalizacao" class="resumo-localizacao">
-                            O ponto do chamado sera definido com base no CEP informado. O endereco abaixo pode ser ajustado como complemento.
+                            O ponto do chamado sera definido com base no CEP informado. O endereco abaixo pode ser
+                            ajustado como complemento.
                         </p>
                     </div>
 
                     <div class="campo-grupo">
                         <label for="endereco">Endereco *</label>
-                        <input type="text" id="endereco" name="endereco" placeholder="Rua, numero, complemento" required>
+                        <input type="text" id="endereco" name="endereco" placeholder="Rua, numero, complemento"
+                            required>
                     </div>
 
                     <div class="campo-grupo">
@@ -87,7 +89,8 @@
 
                     <div class="campo-grupo">
                         <label for="observacoes">Observacoes</label>
-                        <textarea id="observacoes" name="observacoes" placeholder="Informacoes adicionais sobre o chamado" rows="3"></textarea>
+                        <textarea id="observacoes" name="observacoes"
+                            placeholder="Informacoes adicionais sobre o chamado" rows="3"></textarea>
                     </div>
 
                     <div class="acoes-formulario">
@@ -96,14 +99,15 @@
                     </div>
                 </form>
             </div>
+        </div>
 
-            <div class="card-lista">
-                <h3 class="titulo-lista">Chamados Criados</h3>
-                <div id="listaChamadosGestor" class="lista-chamados-gestor">
-                    <p class="lista-vazia">Nenhum chamado criado ainda.</p>
-                </div>
+        <div class="card-lista">
+            <h3 class="titulo-lista">Chamados Criados</h3>
+            <div id="listaChamadosGestor" class="lista-chamados-gestor">
+                <p class="lista-vazia">Nenhum chamado criado ainda.</p>
             </div>
         </div>
+
     </div>
 
     <div id="modalDetalheChamado" class="sobreposicao">
@@ -119,8 +123,33 @@
         </div>
     </div>
 
-    <div id="toast-sucesso" class="toast-hidden">Chamado criado com sucesso!</div>
-    <div id="toast-erro" class="toast-hidden-erro">Erro ao criar chamado!</div>
+    <div id="popupConfirmacao" class="popup" style="display: none">
+      <div class="popup-content">
+        <h2>Confirmar?</h2>
+        <p>Tem certeza que deseja excluir este chamado?</p>
+        <div class="popup-buttons">
+          <button id="btn-cancelar-confirmacao" class="btn-voltar">
+            Voltar
+          </button>
+          <button id="btn-confirmar-final" class="btn-aceitar">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="popupSucesso" class="popup" style="display: none">
+      <div class="popup-content">
+        <h2>Sucesso!</h2>
+        <p>Chamado excluído com sucesso.</p>
+        <div class="popup-buttons">
+          <button id="btn-fechar-sucesso" class="btn-aceitar">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast-aviso" class="toast-hidden">Preencha todos os campos!</div>
+    <div id="toast-aviso1" class="toast-hidden1">Preencha todos os campos!</div>
 
     <script src="js/basic.js"></script>
     <script src="js/componentes.js"></script>

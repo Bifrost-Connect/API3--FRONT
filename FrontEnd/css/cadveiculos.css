@@ -14,9 +14,6 @@ body {
     padding-top: 20px;
     width: 100%;
     font-family: Arial, sans-serif;
-    height: 100vh;
-    display: flex !important;
-    align-content: flex-start !important;
 }
 
 .top-bar {
@@ -568,72 +565,5 @@ select.input:not([value=""]) ~ label {
         flex-direction: column;
         align-items: center;
         gap: 20px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .chamado-card {
-        width: var(--layout-width, 95%);
-        padding: 40px;
-        margin: 20px auto;
-    }
-
-    .chamado-conteudo {
-        gap: 30px;
-    }
-
-    .input, 
-    select.input {
-        width: 100%;
-    }
-}
-
-
-@media (max-width: 560px) {
-    body {
-        padding-top: 10px;
-    }
-
-    .chamado-card {
-        width: min(92vw, 560px) !important;
-        padding: 24px 16px !important;
-        margin: 10px auto;
-    }
-
-    .chamado-titulo {
-        font-size: 22px;
-        margin-bottom: 30px;
-        text-align: center;
-    }
-
-    .chamado-conteudo {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        margin-bottom: 35px;
-    }
-
-    .coluna {
-        width: 100%;
-        gap: 24px;
-    }
-
-    .group {
-        height: auto;
-        margin-bottom: 5px;
-    }
-
-    .input, 
-    select.input {
-        width: 100% !important;
-        font-size: 15px;
-    }
-    
-    #toast-aviso, 
-    #toast-aviso1 {
-        width: 90%;
-        font-size: 14px;
-        text-align: center;
-        padding: 12px 15px;
     }
 }

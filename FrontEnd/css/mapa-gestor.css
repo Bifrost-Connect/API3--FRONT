@@ -498,26 +498,26 @@ body.pagina-mapa-gestor {
     transform: translateY(-1px);
 }
 
-#toast-sucesso,
-#toast-erro {
+#toast-aviso,
+#toast-aviso1 {
     position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
     padding: 12px 25px;
     border-radius: 12px;
-    z-index: 100000 !important;
+    z-index: 3000;
     font-weight: 700;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
     transition: opacity 0.3s;
 }
 
-#toast-sucesso {
+#toast-aviso1 {
     background-color: #28a745;
     color: #ffffff;
 }
 
-#toast-erro {
+#toast-aviso {
     background-color: #f95f62;
     color: #ffffff;
 }
@@ -554,6 +554,159 @@ body.pagina-mapa-gestor {
     cursor: pointer;
 }
 
+.popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.popup-card,
+.popup-content {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    width: min(90%, 560px);
+}
+
+.popup-titulo,
+.popup-content h2 {
+    color: #12308f;
+    font-size: 28px;
+    margin-bottom: 18px;
+    font-weight: bold;
+}
+
+.popup-conteudo,
+.popup-content {
+    color: #333;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.popup-conteudo p,
+.popup-content p {
+    margin-bottom: 10px;
+}
+
+.popup-detalhes-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) 220px;
+    gap: 24px;
+    align-items: start;
+}
+
+.popup-detalhes-info {
+    min-width: 0;
+}
+
+.popup-detalhes-imagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-detalhes-imagem img {
+    width: 100%;
+    max-width: 220px;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.popup-mensagem {
+    max-width: 420px;
+}
+
+
+.popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.popup-card,
+.popup-content {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    width: min(90%, 560px);
+}
+
+.popup-titulo,
+.popup-content h2 {
+    color: #12308f;
+    font-size: 28px;
+    margin-bottom: 18px;
+    font-weight: bold;
+}
+
+.popup-conteudo,
+.popup-content {
+    color: #333;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.popup-conteudo p,
+.popup-content p {
+    margin-bottom: 10px;
+}
+
+.popup-detalhes-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) 220px;
+    gap: 24px;
+    align-items: start;
+}
+
+.popup-detalhes-info {
+    min-width: 0;
+}
+
+.popup-detalhes-imagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-detalhes-imagem img {
+    width: 100%;
+    max-width: 220px;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.popup-mensagem {
+    max-width: 420px;
+}
+
+.popup-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.popup-buttons .btn-voltar,
+.popup-buttons .btn-aceitar {
+    width: auto;
+    flex: 1;
+}
+
 @media (max-width: 1080px) {
     .container-mapa-gestor {
         grid-template-columns: 1fr;
@@ -568,7 +721,7 @@ body.pagina-mapa-gestor {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
     .container-mapa-gestor {
         width: min(calc(100% - 24px), 1180px);
         gap: 16px;

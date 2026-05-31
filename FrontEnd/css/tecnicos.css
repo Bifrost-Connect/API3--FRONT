@@ -425,7 +425,7 @@ label {
     color: white;
     padding: 12px 25px;
     border-radius: 8px;
-    z-index: 100000 !important;
+    z-index: 3000;
     font-weight: bold;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     transition: opacity 0.3s, top 0.3s;
@@ -445,7 +445,7 @@ label {
     color: white;
     padding: 12px 25px;
     border-radius: 8px;
-    z-index: 100000 !important;
+    z-index: 3000;
     font-weight: bold;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     transition: opacity 0.3s, top 0.3s;

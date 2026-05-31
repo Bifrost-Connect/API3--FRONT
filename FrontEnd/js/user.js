@@ -141,8 +141,22 @@ window.carregarDadosUsuario = async function () {
             const inputTelefone = document.getElementById("perfilTelefone");
             const selectCNH = document.getElementById("perfilCNH");
             const textNome = document.getElementById("perfilNome");
+            const textRole = document.getElementById("perfilRole");
+            const blocoCNH = document.getElementById("blocoCNH");
             const previewFoto = document.getElementById("previewFoto");
             const avatarPlaceholder = document.getElementById("avatarPlaceholder");
+
+            // Permissão (Gestor ou Técnico)
+            const permission = (window.CONFIG && CONFIG.PERMISSION_KEY) ? localStorage.getItem(CONFIG.PERMISSION_KEY) : localStorage.getItem("userPermission");
+            const isManager = permission === "ADMINISTRATOR" || permission === "MANAGER";
+
+            if (textRole) {
+                textRole.innerText = isManager ? "Gestor" : "Técnico";
+            }
+
+            if (blocoCNH) {
+                blocoCNH.style.display = "block";
+            }
 
             // Preenchimento de dados
             if (inputEmail) inputEmail.value = user.email || "";
@@ -151,7 +165,7 @@ window.carregarDadosUsuario = async function () {
             if (textNome) textNome.innerText = user.name || "Usuário";
 
             // Tratamento da imagem
-            if (user.photo && previewFoto) {
+            if (user.photo && user.photo.length > 5 && previewFoto) {
                 previewFoto.src = user.photo.startsWith("data:image") ? user.photo : `data:image/jpeg;base64,${user.photo}`;
                 previewFoto.style.display = "block";
                 if (avatarPlaceholder) avatarPlaceholder.style.display = "none";
@@ -168,20 +182,16 @@ window.carregarDadosUsuario = async function () {
 window.atualizarPreviewFoto = function (event) {
     const file = event.target.files[0];
     if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const preview = document.getElementById("previewFoto");
-            const placeholder = document.getElementById("avatarPlaceholder");
+        const preview = document.getElementById("previewFoto");
+        const placeholder = document.getElementById("avatarPlaceholder");
 
-            if (preview) {
-                preview.src = e.target.result;
-                preview.style.display = "block";
-            }
-            if (placeholder) {
-                placeholder.style.display = "none";
-            }
+        if (preview) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
         }
-        reader.readAsDataURL(file);
+        if (placeholder) {
+            placeholder.style.display = "none";
+        }
     }
 };
 
@@ -198,6 +208,9 @@ window.salvarConfiguracoesPerfil = async function () {
     const senhaInput = document.getElementById("perfilSenha")?.value;
     const telefoneInput = document.getElementById("perfilTelefone")?.value;
     const cnhInput = document.getElementById("perfilCNH")?.value;
+
+    const permission = (window.CONFIG && CONFIG.PERMISSION_KEY) ? localStorage.getItem(CONFIG.PERMISSION_KEY) : localStorage.getItem("userPermission");
+    const isManager = permission === "ADMINISTRATOR" || permission === "MANAGER";
 
     const payloadTexto = {};
     if (emailInput) payloadTexto.email = emailInput;

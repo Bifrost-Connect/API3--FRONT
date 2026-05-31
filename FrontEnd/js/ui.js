@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isTechnicianPage = technicianPages.some(page => currentPage.includes(page));
 
         // Expulsa técnicos que tentam acessar rotas do gestor
-        if (isGestorPage && permission !== "ADMINISTRATOR") {
+        if (isGestorPage && permission !== "ADMINISTRATOR" && permission !== "MANAGER") {
             window.location.href = "telainicial.html";
             return;
         }
@@ -273,103 +273,66 @@ window.carregarDadosTelaInicial = function () {
     }
 };
 
-// Mudar km
-let valorKmOriginal = "";
 
-function alternarEdicaoKM(editando) {
-    const input = document.getElementById('quilometragem-inicial');
-    const btnEdit = document.getElementById('btn-edit-km');
-    const btnSave = document.getElementById('btn-save-km');
-    const btnCancel = document.getElementById('btn-cancel-km');
+const popupConfirmacao = document.getElementById("popupConfirmacao");
+const btnCancelarConfirmacao = document.getElementById("btn-cancelar-confirmacao");
+const btnConfirmarFinal = document.getElementById("btn-confirmar-final");
 
-    if (editando) {
-        // Salva o valor atual antes de começar a editar
-        valorKmOriginal = input.value;
-        
-        input.readOnly = false;
-        input.focus();
-        btnEdit.style.display = 'none';
-        btnSave.style.display = 'flex';
-        btnCancel.style.display = 'flex';
-    } else {
-        // Cancela: volta o valor original e tranca o campo
-        input.value = valorKmOriginal;
-        input.readOnly = true;
-        btnEdit.style.display = 'flex';
-        btnSave.style.display = 'none';
-        btnCancel.style.display = 'none';
+// Variável para guardar o ID do chamado que o usuário quer apagar
+let idChamadoParaDeletar = null;
+
+/**
+ * Função global para abrir o pop-up de confirmação
+ * @param {number|string} id - O ID do chamado que será excluído
+ */
+window.abrirPopupConfirmacao = function(id) {
+    idChamadoParaDeletar = id;
+    if (popupConfirmacao) {
+        popupConfirmacao.style.display = "flex"; // Abre o pop-up centralizado
     }
+};
+
+/**
+ * Função global para fechar o pop-up
+ */
+window.fecharPopupConfirmacao = function() {
+    idChamadoParaDeletar = null;
+    if (popupConfirmacao) {
+        popupConfirmacao.style.display = "none"; // Esconde o pop-up
+    }
+};
+
+// Configura o botão "Voltar" (Cancelar) para fechar o pop-up
+if (btnCancelarConfirmacao) {
+    btnCancelarConfirmacao.addEventListener("click", window.fecharPopupConfirmacao);
 }
 
-function salvarEdicaoKM() {
-    const input = document.getElementById('quilometragem-inicial');
-    const btnEdit = document.getElementById('btn-edit-km');
-    const btnSave = document.getElementById('btn-save-km');
-    const btnCancel = document.getElementById('btn-cancel-km');
+// Configura o botão "Confirmar" para executar a exclusão
+if (btnConfirmarFinal) {
+    btnConfirmarFinal.addEventListener("click", function() {
+        if (!idChamadoParaDeletar) return;
 
-    // Aqui você pode adicionar validações (se é número, etc)
-    if (input.value.trim() === "") {
-        alert("Por favor, digite um valor.");
-        return;
-    }
+        // 1. AQUI VOCÊ ADICIONA A SUA LÓGICA DE EXCLUSÃO
+        console.log("Chamado excluído com ID:", idChamadoParaDeletar);
 
-    // Tranca o campo e volta ao estado inicial de botões
-    input.readOnly = true;
-    btnEdit.style.display = 'flex';
-    btnSave.style.display = 'none';
-    btnCancel.style.display = 'none';
-    
-    console.log("Nova KM salva:", input.value);
+        // 2. Mostra o Toast de sucesso (usando a função do seu basic.js)
+        if (typeof window.mostrarToast === "function") {
+            window.mostrarToast("Chamado excluído com sucesso!", "toast-aviso1");
+        }
+
+        // 3. Fecha o pop-up após excluir
+        window.fecharPopupConfirmacao();
+
+        // 4. Se você tiver uma função para atualizar a lista na tela, chame-a aqui:
+        if (typeof atualizarListaChamados === "function") {
+            atualizarListaChamados();
+        }
+    });
 }
 
-// cancelar check-in
-document.addEventListener("DOMContentLoaded", function () {
-    // Referências dos elementos do DOM
-    const btnCancelar2 = document.getElementById("btn-cancelar-veiculo2");
-    
-    const popupCanCheckin = document.getElementById("popupcancheckin");
-    const btnVoltarCancelamento = document.getElementById("btn-cancelar-confirmacao1");
-    const btnConfirmarCancelamento = document.getElementById("btn-confirmar-cancelamento");
-    
-    const popupSucessoCancelamento = document.getElementById("popupSucessoCancelamento");
-    const btnFecharSucessoCancelamento = document.getElementById("btn-fechar-sucesso-cancelamento");
-
-    if (btnCancelar2) {
-        btnCancelar2.addEventListener("click", function () {
-            popupCanCheckin.style.display = "flex";
-        });
-    }
-
-    if (btnVoltarCancelamento) {
-        btnVoltarCancelamento.addEventListener("click", function () {
-            popupCanCheckin.style.display = "none";
-            document.getElementById("cancelamentocheckin").value = ""; 
-        });
-    }
-
-    if (btnConfirmarCancelamento) {
-        btnConfirmarCancelamento.addEventListener("click", function () {
-            const motivo = document.getElementById("cancelamentocheckin").value.trim();
-            
-            if (motivo === "") {
-                mostrarToast("Por favor, digite o motivo do cancelamento.");
-                return;
-            }
-
-            document.getElementById("cancelamentocheckin").value = ""; 
-
-            popupCanCheckin.style.display = "none";
-            popupSucessoCancelamento.style.display = "flex";
-        });
-    }
-
-    if (btnFecharSucessoCancelamento) {
-        btnFecharSucessoCancelamento.addEventListener("click", function () {
-            popupSucessoCancelamento.style.display = "none";
-            
-            if (typeof window.cancelarVeiculoInfo === "function") {
-                window.cancelarVeiculoInfo();
-            }
-        });
+// Fecha o pop-up se o usuário clicar no fundo escuro (fora do card de confirmação)
+window.addEventListener("click", function(event) {
+    if (event.target === popupConfirmacao) {
+        window.fecharPopupConfirmacao();
     }
 });

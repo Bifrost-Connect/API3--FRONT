@@ -902,3 +902,47 @@ input[readonly] {
 .lista-veiculos::-webkit-scrollbar-thumb:hover {
     background: #999;
 }
+
+/* ==========================================
+   BOTÃO FLUTUANTE DE EMERGÊNCIA (CONTATOS)
+   ========================================== */
+.btn-flutuante {
+    position: fixed;
+    bottom: 24px;       /* Distância confortável da borda inferior */
+    right: 24px;        /* Distância confortável da borda direita */
+    width: 66px;        /* Largura exata para o formato da imagem */
+    height: 66px;       /* Altura idêntica para manter o círculo perfeito */
+    background-color: #12308f; /* Tom de azul escuro do padrão do seu SIVA */
+    color: #ff2d70;     /* Rosa vibrante mapeado do ícone da imagem */
+    border: none;
+    border-radius: 50%; /* Transforma o elemento em um círculo perfeito */
+    font-size: 26px;    /* Redimensionamento adequado para o emoji 📞 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.35); /* Sombra difusa igual à captura */
+    z-index: 99999;     /* Mantém o botão acima da estrutura da página */
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease;
+}
+
+/* Comportamento de foco e hover interativo */
+.btn-flutuante:hover {
+    transform: scale(1.06);
+    background-color: #0e2877; /* Escurecimento sutil seguindo os outros botões do CSS */
+}
+
+.btn-flutuante:active {
+    transform: scale(0.96);
+}
+
+/* Responsividade: Ajuste sutil em telas menores para não obstruir conteúdo */
+@media (max-width: 480px) {
+    .btn-flutuante {
+        bottom: 16px;
+        right: 16px;
+        width: 58px;
+        height: 58px;
+        font-size: 22px;
+    }
+}

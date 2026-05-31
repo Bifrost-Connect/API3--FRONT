@@ -148,3 +148,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ===================================================================
+// OPERAÇÃO DE LOGOUT (SAÍDA DO SISTEMA)
+// ===================================================================
+window.btnlogout = function () {
+    // 1. Remove os dados de autenticação e nome salvos no navegador
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userPermission");
+    localStorage.removeItem("userRegistration");
+
+    // Caso use a chave de Token definida no CONFIG, limpa ela também
+    if (typeof CONFIG !== 'undefined' && CONFIG.TOKEN_KEY) {
+        localStorage.removeItem(CONFIG.TOKEN_KEY);
+    } else {
+        localStorage.removeItem("token");
+    }
+
+    // 2. Redireciona o usuário de volta para a tela de login
+    window.location.href = "index.html";
+};
+
