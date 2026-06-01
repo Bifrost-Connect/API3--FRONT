@@ -234,6 +234,41 @@ window.limparFiltroTecnicos = function () {
     renderizarTecnicos(tecnicosAtuais); // Restaura a tabela completa
 };
 
+window.exportarTecnicosCSV = function () {
+    if (!tecnicosAtuais || tecnicosAtuais.length === 0) {
+        window.mostrarToast("Nenhum técnico disponível para exportar.", "toast-aviso");
+        return;
+    }
+
+    const headers = ["Nome", "Matrícula", "E-mail", "Telefone", "Setor", "Perfil", "Status"];
+    const csvRows = [headers.join(",")];
+
+    tecnicosAtuais.forEach(tecnico => {
+        const row = [
+            tecnico.name,
+            tecnico.registration,
+            tecnico.email,
+            tecnico.phone,
+            tecnico.setor,
+            TRANSLATION.PERFIL[tecnico.perfil] || "Técnico",
+            TRANSLATION.STATUS_TO_PT[tecnico.status] || "Ativo"
+        ];
+        csvRows.push(row.map(value => `"${String(value || "").replace(/"/g, '""')}"`).join(","));
+    });
+
+    const csvContent = csvRows.join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `tecnicos_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    window.mostrarToast("Exportação iniciada.", "toast-aviso1");
+};
+
 // ===================================================================
 // 5. INICIALIZAÇÃO
 // ===================================================================

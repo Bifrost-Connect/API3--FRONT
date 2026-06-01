@@ -490,7 +490,7 @@ body.pagina-relatorios {
     }
 
     .relatorios-table {
-        min-width: 720px !important; /* Largura estendida segura para exibir dados sem espremer */
+        min-width: auto !important;
         width: 100% !important;
     }
 
@@ -498,5 +498,50 @@ body.pagina-relatorios {
     .relatorios-table td {
         padding: 12px 14px !important;
         font-size: 13px !important;
+    }
+
+    /* Tabela adaptada para celular: cada linha vira um card com rótulos */
+    .relatorios-table thead {
+        display: none !important;
+    }
+
+    .relatorios-table,
+    .relatorios-table tbody,
+    .relatorios-table tr,
+    .relatorios-table td {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .relatorios-table tr {
+        margin-bottom: 16px !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 18px !important;
+        padding: 14px 12px !important;
+        background: #ffffff !important;
+    }
+
+    .relatorios-table td {
+        padding: 10px 12px 10px 12px !important;
+        text-align: left !important;
+        position: relative !important;
+        border: none !important;
+    }
+
+    .relatorios-table td::before {
+        content: attr(data-label) ":" !important;
+        display: block !important;
+        margin-bottom: 6px !important;
+        color: #67717b !important;
+        font-size: 0.78rem !important;
+        font-weight: 700 !important;
+    }
+
+    .relatorios-table td:last-of-type {
+        padding-bottom: 16px !important;
+    }
+
+    .status-chip {
+        width: fit-content !important;
     }
 }

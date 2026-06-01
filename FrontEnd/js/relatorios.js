@@ -165,13 +165,14 @@ function atualizarTabela(entries) {
         else if (entry.status === "Em andamento") statusClass = "status-andamento"; // Azul
 
         row.innerHTML = `
-            <td>#${entry.id}</td>
-            <td>${entry.carPrefix || "-"}</td>
-            <td>${entry.userName || entry.userRegistration || "-"}</td>
-            <td>${entry.description || "-"}</td>
-            <td>${entry.departureTime || "-"}</td>
-            <td>${entry.completionTime || "-"}</td>
-            <td><span class="status-chip ${statusClass}">${entry.status || "-"}</span></td>
+            <td data-label="ID">#${entry.id}</td>
+            <td data-label="Veículo">${entry.carPrefix || "-"}</td>
+            <td data-label="Técnico">${entry.userName || entry.userRegistration || "-"}</td>
+            <td data-label="Descrição">${entry.description || "-"}</td>
+            <td data-label="Saída">${entry.departureTime || "-"}</td>
+            <td data-label="Conclusão">${entry.completionTime || "-"}</td>
+            <td data-label="Status"><span class="status-chip ${statusClass}">${entry.status || "-"}</span></td>
+            <td data-label="Abastecimento">${entry.fuelType || entry.fuelAmount || entry.abastecimento || "-"}</td>
         `;
         tbody.appendChild(row);
     });

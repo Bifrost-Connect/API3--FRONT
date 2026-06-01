@@ -14,6 +14,8 @@ const traduzirCategoria = (cat) => {
     return cat.toUpperCase();
 };
 
+let veiculosAtuaisDisponiveis = [];
+
 // ===================================================================
 // 1. CADASTRO DE VEÍCULOS
 // ===================================================================
@@ -116,6 +118,7 @@ async function carregarVeiculosDisponiveis() {
             const veiculos = await response.json();
             listaVeiculos.innerHTML = '';
             let veiculosLivres = 0;
+            const disponiveis = [];
 
             veiculos.forEach(v => {
                 // Filtra para exibir apenas veículos que não estão em uso ou manutenção
@@ -123,6 +126,7 @@ async function carregarVeiculosDisponiveis() {
                     return;
                 }
                 veiculosLivres++;
+                disponiveis.push(v);
 
                 const marca = v.type ? v.type.brand : 'Desconhecida';
                 const modelo = v.type ? v.type.model : 'Desconhecido';
@@ -145,15 +149,61 @@ async function carregarVeiculosDisponiveis() {
 
             if (veiculosLivres === 0) {
                 listaVeiculos.innerHTML = '<p style="text-align:center; padding: 20px;">Nenhum veículo disponível no momento.</p>';
+                veiculosAtuaisDisponiveis = [];
+            } else {
+                veiculosAtuaisDisponiveis = disponiveis;
             }
         } else {
             listaVeiculos.innerHTML = '<p style="text-align:center; padding: 20px; color: red;">Erro ao carregar veículos.</p>';
+            veiculosAtuaisDisponiveis = [];
         }
     } catch (error) {
         console.error("Erro ao buscar veículos:", error);
         listaVeiculos.innerHTML = '<p style="text-align:center; padding: 20px; color: red;">Falha de conexão com o servidor.</p>';
+        veiculosAtuaisDisponiveis = [];
     }
 }
+
+window.exportarVeiculosCSV = function () {
+    if (!veiculosAtuaisDisponiveis || veiculosAtuaisDisponiveis.length === 0) {
+        window.mostrarToast("Nenhum veículo disponível para exportar.", "toast-aviso");
+        return;
+    }
+
+    const headers = ["Prefixo", "Placa", "Modelo", "Marca", "Tipo", "KM Atual", "Disponível"];
+    const rows = [headers.join(",")];
+
+    veiculosAtuaisDisponiveis.forEach(v => {
+        const categoria = traduzirCategoria(v.type ? v.type.category : "");
+        const model = v.type ? v.type.model : "Desconhecido";
+        const brand = v.type ? v.type.brand : "Desconhecida";
+        const status = (v.available === false || String(v.available) === "false") ? "Não" : "Sim";
+
+        const row = [
+            v.prefix || "",
+            v.licensePlate || "",
+            model,
+            brand,
+            categoria,
+            v.currentKm !== undefined && v.currentKm !== null ? v.currentKm : "0",
+            status
+        ];
+
+        rows.push(row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(","));
+    });
+
+    const csvContent = rows.join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `veiculos_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    window.mostrarToast("Exportação iniciada.", "toast-aviso1");
+};
 
 // ===================================================================
 // 3. SELEÇÃO DE VEÍCULO
